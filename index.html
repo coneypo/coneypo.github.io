@@ -6,23 +6,31 @@
 <title></title>
 
 <script>
+
+
 function myFunction1()
 {
-alert("no");
+alert("换一个");
 }
+
 function myFunction2()
 {
-alert("no");
+alert("换一个");
 }
+
 function myFunction3()
 {
-alert("yes");
+alert("验证成功");
+document.getElementById("p1").innerHTML="你好 傻逼";
 }
 </script>
 
 </head>
 
 <body>
+
+	<p id="p1">你好</p>
+	
 	<h1>点一个</h1>
     <button onclick="myFunction1()">button1</button>
 	<button onclick="myFunction2()">button2</button>
@@ -35,17 +43,68 @@ alert("yes");
 	<!--注释-->
 
 	<img alt="show pic" src="7233586.jpg" >
+	 
+	<br>
+	<br>
 	
-	<br>
-	<br>
-	<br>
+	<!--写日期--> 
 	
-    <div id="profile_block">
+	<p id="rand_nums">0000</p>
+	
+	<script>
+		function get_randnum(){
+			for (var i=0;i<4;i++)
+			{document.getElementById('rand_nums').innerHTML=(Math.ceil((Math.random())*10)-1);}
+		}
+	</script>
+	<button onclick="get_randnum()"> rand_nums </button>
+	
+	<br><br><br><br><br>
+	
+	<script>
+		
+	function change_color()
+	{
+		var text_color;
+		var rand_num=Math.ceil((Math.random())*10)-1;
+		switch(rand_num)
+		{
+			case 0:	text_color='red';break;
+			case 1:	text_color='green';break;
+			case 2:	text_color='yellow';break;
+			case 3:	text_color='white';break;
+			case 4:	text_color='pink';break;
+			case 5:	text_color='blue';break;
+			case 6:	text_color='orange';break;
+			case 7:	text_color='gray';break;
+			case 8:	text_color='purple';break;
+			case 9:	text_color='indigo';break;
+			default: text_color='black'
+		}
+		
+		document.getElementById('id1').style.color=text_color;
+
+		document.getElementById('id_color_num').innerHTML=rand_num;
+		
+		document.getElementById('id_color').innerHTML=text_color;
+		
+	}
+	</script>
+	
+	<h1 id="id1">看我变色</h1>
+	<p id="id_color_num">color_num</p>
+	<p id="id_color">color</p>
+	
+	<button onclick="change_color()"> change color </button>
+	
+	<br><br><br><br><br>
+	<!--link地址--> 
+	<div id="profile_block">
 		Github：<a href="https://github.com/coneypo/" >GitHub地址</a>
         <br>
 		Blog：<a href="http://www.cnblogs.com/AdaminXie/">Blog地址</a>
         <br>
-     </div>
-
+    </div>
+	 
 </body>
 </html>
