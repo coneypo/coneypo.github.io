@@ -1,52 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-<meta charset="utf-8">
-<title></title>
-
-<script>
-
-
-function myFunction1()
-{
-alert("换一个");
-}
-
-function myFunction2()
-{
-alert("换一个");
-}
-
-function myFunction3()
-{
-alert("验证成功");
-document.getElementById("p1").innerHTML="你好 傻逼";
-}
-</script>
-
-</head>
+<head><img alt="show pic" src="7233586.jpg" ></head>
 
 <body>
 	
-	<h1>点一个认证</h1>
-	<p id="p1">你好</p>
-    <button onclick="myFunction1()">button1</button>
-	<button onclick="myFunction2()">button2</button>
-	<button onclick="myFunction3()">button3</button>
+	<h1>1.欢迎</h1>
+	<p id="hello">你好，请输入你的昵称：</p>
 	
+	<input type='text' name='text' id='input_text'><br>
 	<br>
-	<br>
-	<br>
+	<input type="button" value="确认" onclick="input_ensure();">
+	
+	<script>
+		function input_ensure()
+		{
+			(document.getElementById('hello').innerHTML="你好，"+document.getElementById('input_text').value)
+		}
+	</script>
+	
+	<br><br><br><br>
     
 	<!--注释-->
-
-	<img alt="show pic" src="7233586.jpg" >
-	 
-	<br>
-	<br>
 	
-	<h1>猜数字</h1>
+	<h1>2.猜数字</h1>
 	
 	<script>
 	
@@ -55,7 +31,6 @@ document.getElementById("p1").innerHTML="你好 傻逼";
 		var rand_num;
 		var bet_num;
 		
-		function bet_0(){bet_num=0;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
 		function bet_1(){bet_num=1;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
 		function bet_2(){bet_num=2;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
 		function bet_3(){bet_num=3;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
@@ -64,10 +39,10 @@ document.getElementById("p1").innerHTML="你好 傻逼";
 		function bet_6(){bet_num=6;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
 		function bet_7(){bet_num=7;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
 		function bet_8(){bet_num=8;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
-		
+		function bet_9(){bet_num=9;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
 		function get_randnum()
 		{	
-			rand_num=(Math.ceil((Math.random())*10)-1)
+			rand_num=(Math.ceil((Math.random())*9))
 				
 			//更新生成的随机数
 			document.getElementById('rand_nums').innerHTML="生成的随机数："+rand_num;
@@ -112,17 +87,17 @@ document.getElementById("p1").innerHTML="你好 傻逼";
 	}
 	</script>
 	
-	<button onclick="bet_0()"> 0 </button>
 	<button onclick="bet_1()"> 1 </button>
 	<button onclick="bet_2()"> 2 </button>
-	<br>
 	<button onclick="bet_3()"> 3 </button>
+	<br>
 	<button onclick="bet_4()"> 4 </button>
 	<button onclick="bet_5()"> 5 </button>
-	<br>
 	<button onclick="bet_6()"> 6 </button>
+	<br>
 	<button onclick="bet_7()"> 7 </button>
 	<button onclick="bet_8()"> 8 </button>
+	<button onclick="bet_9()"> 9 </button>
 	<br>
 	
 	
@@ -133,25 +108,25 @@ document.getElementById("p1").innerHTML="你好 傻逼";
 	
 	<button onclick="get_randnum()"> 生成随机数 </button>
 	
-	<br><br><br><br><br>
-
+	<br><br><br><br>
 	
-	<h1 id="id1">看我变色</h1>
+	<h1 id="id1">3.看我变色</h1>
 	<p id="id_color_num">color_num:</p>
 	<p id="id_color">color:</p>
 	
 	<button onclick="change_color()"> 点我变色 </button>
 	
-	<br><br><br><br><br>
+	<br><br><br><br>
+	
 	<!--link地址--> 
+	<h1 >4.链接</h1>
 	<div id="profile_block">
-		Github：<a href="https://github.com/coneypo/" >GitHub地址</a>
-        <br>
-		Blog：<a href="http://www.cnblogs.com/AdaminXie/">Blog地址</a>
-        <br>
+		Github：<a href="https://github.com/coneypo/" >GitHub地址</a><br>
+		Blog：<a href="http://www.cnblogs.com/AdaminXie/">Blog地址</a><br>
     </div>
 	
-	 <br><br>
+	<!--counter--> 
+	<br><br>
 	<a href="https://info.flagcounter.com/8OLf">
 		<img src="https://s05.flagcounter.com/count/8OLf/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_From/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
 	</a>
