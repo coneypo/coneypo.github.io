@@ -1,11 +1,78 @@
 <!DOCTYPE html>
 <html>
-<head><img alt="show pic" src="7233586.jpg" ></head>
+
+<head>
+	<title>此电脑</title>
+	<style type="text/css">
+	#canvas{
+    border: 1px solid black;
+	}
+	body{
+		margin: 0;
+		padding: 0;
+	}
+	</style>
+</head>
 
 <body>
+
+<canvas id="myCanvas" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+	<script type="text/javascript">
 	
+	var c=document.getElementById("myCanvas");
+	c.width=300;
+	c.height=300;
+	var cxt=c.getContext("2d");
+	cxt.fillStyle="#FF0000";
+	
+	for (var i=0;i<10;i++){
+		// 初始化坐标
+		var x=Math.random()*300;
+		var y=Math.random()*300;
+		var dx=Math.random()*5;
+		var dy=Math.random()*5;
+		var radius=Math.random()*40;
+		
+		
+		}
+		
+		(function animate()
+		{
+			requestAnimationFrame(animate);
+		
+			cxt.clearRect(0,0,300,300);
+			cxt.beginPath();
+			cxt.arc(x,y,radius,0,Math.PI*2,false);
+		//	cxt.closePath();
+			cxt.stroke();
+		
+			// 反弹
+			// 300-宽度
+			if (x+radius>300 || x-radius<0)
+			{
+				dx=-dx;
+			}
+			if (y+radius>300 || y-radius<0)
+			{
+				dy=-dy;
+			}
+			x+=dx;
+			y+=dy;
+		
+		})();	
+		
+	</script>
+	
+	<br><br>
+	<img alt="show pic" src="7233586.jpg" >
+	
+	<font size="1">
 	<h1>1.欢迎</h1>
 	<p id="hello">你好，请输入你的昵称：</p>
+	</font>
 	
 	<input type='text' name='text' id='input_text'><br>
 	<br>
@@ -125,6 +192,26 @@
 		Blog：<a href="http://www.cnblogs.com/AdaminXie/">Blog地址</a><br>
     </div>
 	
+	<br><br><br><br>
+	<!--留言--> 
+	<h1 >5.留言</h1>
+	<p id="board">留言</p>
+	
+	<input type='text' name='text' id='input_text_board'><br>
+	<br>
+	<button onclick="board()">留言</button>
+	<script>
+		var board_cnt=0;
+		var myDate=new Date();
+		var board_context=new Array();
+		function board()
+		{
+			board_cnt+=1;
+			document.getElementById('board').innerHTML=board_cnt+" "+myDate.toLocaleString()+" "+document.getElementById('input_text_board').value;
+		}
+	</script>
+	
+	<br><br><br><br>
 	<!--counter--> 
 	<br><br>
 	<a href="https://info.flagcounter.com/8OLf">
