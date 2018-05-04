@@ -1,59 +1,278 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-
-<meta charset="utf-8">
-<title></title>
-
-<script>
-
-
-function myFunction1()
-{
-alert("换一个");
-}
-
-function myFunction2()
-{
-alert("换一个");
-}
-
-function myFunction3()
-{
-alert("验证成功");
-document.getElementById("p1").innerHTML="你好 傻逼";
-}
-</script>
-
+	<title>此电脑</title>
+	<style type="text/css">
+	#canvas{
+    border: 1px solid black;
+	}
+	body {background-image:url(bk2.jpg);}
+	</style>
 </head>
 
 <body>
+<br>
 
-	<br>
-	<br>
+<div>
+<script>
+var imgbackgroud=new Image();
+imgbackgroud.src="F:\code\git\coneypo.github.io\pts\bees2.jpg";
+</script>
+</div>
+
+<div align="center"><canvas id="myCanvas" style="border:1px solid #c3c3c3;">
+</canvas></div>
+<br>
+<div id='radius' style="text-align:center;">radius:</div>
+
+<div align="center">
+<script type="text/javascript">
+
+var c=document.getElementById("myCanvas");
+c.width=350;
+c.height=350;
+var cxt=c.getContext("2d");
+cxt.fillStyle="#FF0000";
+
+// 初始化坐标
+var dx=Math.random()*5;
+var dy=Math.random()*5;
+var radius=Math.random()*50;
+var x=Math.random()*250+radius;
+var y=Math.random()*250+radius;
+
+function reset_circle(){
+	radius=Math.random()*50;
+	x=Math.random()*250+radius;
+	y=Math.random()*250+radius;
+	dx=Math.random()*5;
+	dy=Math.random()*5;
+	document.getElementById('radius').innerHTML="球球起始参数："+"<br>"+"radius： "+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y;
+}
 	
-	<!--写日期--> 
-	<script>
-		for (var i=0;i<4;i++)
-		{document.write(Math.ceil((Math.random())*10)-1);
+document.getElementById('radius').innerHTML="球球起始参数："+"<br>"+"radius："+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y;
+
+var imgobj=new Image();
+imgobj.src="https://img2.woyaogexing.com/2017/12/29/b8cf2985aadb3024!400x400_big.jpg";
+
+
+(function animate()
+{
+	requestAnimationFrame(animate);
+
+	cxt.clearRect(0,0,500,500);
+	cxt.beginPath();
+	cxt.arc(x,y,radius,0,Math.PI*2,false);
+	//cxt.drawImage(imgobj,x,y,100,100);
+	
+	//cxt.drawImage(imgbackgroud,0,0);
+//	cxt.closePath();
+	// 圆的边边
+//	cxt.stroke();
+	cxt.fill()
+
+	// 反弹
+	// 水平
+	if (x+radius>350 || x-radius<0)
+	{
+		dx=-dx;
+		cxt.fillStyle=change_color_circle();
+	}
+	// 竖直
+	if (y+radius>350 || y-radius<0)
+	{
+		dy=-dy;
+		cxt.fillStyle=change_color_circle();
+	}
+	x+=dx;
+	y+=dy;
+
+})();
+
+// 改变球球的颜色
+function change_color_circle()
+{		var circle_color;
+		rand_num_change_color=Math.ceil((Math.random())*20)-1;
+		switch(rand_num_change_color)
+		{
+			case 0:	circle_color='#87CEFF';break;
+			case 1:	circle_color='#7CFC00';break;
+			case 2:	circle_color='#CDCDC1';break;
+			case 3:	circle_color='#C71585';break;
+			case 4:	circle_color='#EE82EE';break;
+			case 5:	circle_color='#FFB90F';break;
+			case 6:	circle_color='#1E90FF';break;
+			case 7:	circle_color='#0000FF';break;
+			case 8:	circle_color='#0A0A0A';break;
+			case 9:	circle_color='#228B22';break;
+			case 10:	circle_color='#6CA6CD';break;
+			case 11:	circle_color='#8B1A1A';break;
+			case 12:	circle_color='#9A32CD';break;
+			case 13:	circle_color='#B452CD';break;
+			case 14:	circle_color='#A0522D';break;
+			case 15:	circle_color='#CDAA7D';break;
+			case 16:	circle_color='#CDC1C5';break;
+			case 17:	circle_color='#C0FF3E';break;
+			case 18:	circle_color='#EE5C42';break;
+			case 19:	circle_color='#EE2C2C';break;
+			default: circle_color='#707070'
 		}
-	</script>
-	
-	<script>
-		document.write("dsada");
-		
-	</script>
-	<br><br>
-	
-	var text_color='red';
-	<script>
-		"var(text_color):"+text_color
-	</script>
-	
-	<h1 id="id1">text here</h1>
-	<button type="button" onclick="document.getElementById('id1').style.color=text_color"> 
-		change color
-	</button>
+		return circle_color;
+}	
+</script>
+<br>
+<div align="center"><button onclick="reset_circle()"> RESET </button></div>
 
+<br><br>
+
+<font size="1">
+<h1>1.欢迎</h1>
+<p id="hello">你好，请输入你的昵称：</p>
+</font>
+
+<input type='text' name='text' id='input_text'><br>
+<br>
+<input type="button" value="确认" onclick="input_ensure();">
+
+<script>
+	function input_ensure()
+	{
+		(document.getElementById('hello').innerHTML="你好，"+document.getElementById('input_text').value)
+	}
+</script>
+
+<br><br><br><br>
+
+<!--注释-->
+
+<h1>2.猜数字</h1>
+
+<script>
+
+	// ----- 猜数字 -----
+	//rand随机生成的数字/bet用户选择的数字
+	var rand_num;
+	var bet_num;
+	
+	function bet_1(){bet_num=1;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_2(){bet_num=2;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_3(){bet_num=3;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_4(){bet_num=4;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_5(){bet_num=5;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_6(){bet_num=6;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_7(){bet_num=7;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_8(){bet_num=8;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function bet_9(){bet_num=9;document.getElementById('bet_nums').innerHTML="你猜的随机数："+bet_num}
+	function get_randnum()
+	{	
+		rand_num=(Math.ceil((Math.random())*9))
+			
+		//更新生成的随机数
+		document.getElementById('rand_nums').innerHTML="生成的随机数："+rand_num;
+		
+		//rand_num==bet_num
+		if (rand_num==bet_num)
+			{	
+			document.getElementById('conclusion_rand_num').innerHTML="结果:   "+"win";
+			}
+		else 
+			{
+			document.getElementById('conclusion_rand_num').innerHTML="结果:   "+"lose";
+			}
+	}
+	
+	// -----变色-----
+	// change_color 更换字体颜色
+	function change_color(){
+		var text_color;
+		rand_num_change_color=Math.ceil((Math.random())*10)-1;
+		switch(rand_num_change_color)
+		{
+			case 0:	text_color='red';break;
+			case 1:	text_color='green';break;
+			case 2:	text_color='yellow';break;
+			case 3:	text_color='white';break;
+			case 4:	text_color='pink';break;
+			case 5:	text_color='blue';break;
+			case 6:	text_color='orange';break;
+			case 7:	text_color='gray';break;
+			case 8:	text_color='purple';break;
+			case 9:	text_color='indigo';break;
+			default: text_color='black'
+		}
+	
+	document.getElementById('id1').style.color=text_color;
+
+	document.getElementById('id_color_num').innerHTML="color_num:"+"\t"+rand_num_change_color;
+	
+	document.getElementById('id_color').innerHTML="color:"+"\t"+text_color;
+	
+}
+</script>
+
+<button onclick="bet_1()"> 1 </button>
+<button onclick="bet_2()"> 2 </button>
+<button onclick="bet_3()"> 3 </button>
+<br>
+<button onclick="bet_4()"> 4 </button>
+<button onclick="bet_5()"> 5 </button>
+<button onclick="bet_6()"> 6 </button>
+<br>
+<button onclick="bet_7()"> 7 </button>
+<button onclick="bet_8()"> 8 </button>
+<button onclick="bet_9()"> 9 </button>
+<br>
+
+
+<p id="bet_nums">你猜的随机数：</p>
+<p id="rand_nums">生成的随机数：</p>
+<p id="conclusion_rand_num">结果：</p>
+
+
+<button onclick="get_randnum()"> 生成随机数 </button>
+
+<br><br><br><br>
+
+<h1 id="id1">3.看我变色</h1>
+<p id="id_color_num">color_num:</p>
+<p id="id_color">color:</p>
+
+<button onclick="change_color()"> 点我变色 </button>
+
+<br><br><br><br>
+
+<!--link地址--> 
+<h1 >4.链接</h1>
+<div id="profile_block">
+	Github：<a href="https://github.com/coneypo/" >GitHub地址</a><br>
+	Blog：<a href="http://www.cnblogs.com/AdaminXie/">Blog地址</a><br>
+</div>
+
+<br><br><br><br>
+<!--留言--> 
+<h1 >5.留言</h1>
+<p id="board">留言</p>
+
+<input type='text' name='text' id='input_text_board'><br>
+<br>
+<button onclick="board()">留言</button>
+<script>
+	var board_cnt=0;
+	var myDate=new Date();
+	var board_context=new Array();
+	function board()
+	{
+		board_cnt+=1;
+		document.getElementById('board').innerHTML=board_cnt+" "+myDate.toLocaleString()+" "+document.getElementById('input_text_board').value;
+	}
+</script>
+
+<br><br><br><br>
+<!--counter--> 
+<br><br>
+<a href="https://info.flagcounter.com/8OLf">
+	<img src="https://s05.flagcounter.com/count/8OLf/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_From/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0">
+</a>
 </body>
 </html>

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-
+<br>
 <div align="center"><canvas id="myCanvas" style="border:1px solid #c3c3c3;">
 </canvas></div>
 <br>
@@ -47,6 +47,10 @@ function reset_circle(){
 }
 	
 document.getElementById('radius').innerHTML="球球起始参数："+"<br>"+"radius："+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y;
+
+//var imgobj=new Image();
+//imgobj.src="http://a.hiphotos.baidu.com/image/pic/item/7af40ad162d9f2d307eddbb9a5ec8a136227ccec.jpg";
+
 (function animate()
 {
 	requestAnimationFrame(animate);
@@ -54,6 +58,7 @@ document.getElementById('radius').innerHTML="球球起始参数："+"<br>"+"radi
 	cxt.clearRect(0,0,500,500);
 	cxt.beginPath();
 	cxt.arc(x,y,radius,0,Math.PI*2,false);
+	//cxt.drawImage(imgobj,0,0,200,200);
 //	cxt.closePath();
 	// 圆的边边
 //	cxt.stroke();
