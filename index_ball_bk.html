@@ -10,7 +10,7 @@
 	body{
 		margin: 0;
 		padding: 0;
-		background:repeating-linear-gradient(45deg, #E0FFFF 0,#E0FFFF 30%, #87CEFF 0,#87CEFF 50%) 0 / 50px 50px;
+		background:repeating-linear-gradient(45deg, #E0FFFF 0,#E0FFFF 10%, #87CEFF 0,#87CEFF 50%) 0 / 20px 20px;
 	}
 	.text{
 		font-family=
@@ -86,23 +86,22 @@ var c=document.getElementById("myCanvas");
 c.width=window.innerWidth;
 c.height=window.innerHeight;
 
-var ctx=c.getContext("2d");
-ctx.fillStyle="#000000";
+var cxt=c.getContext("2d");
+cxt.fillStyle="#FF0000";
 
 // 初始化坐标
-var dx=Math.random()*10-5;
-var dy=Math.random()*10-5;
-var radius=Math.random()*30;
-var x=Math.random()*window.innerWidth*0.9+radius;
-var y=Math.random()*window.innerHeight*0.9+radius;
-
+var dx=Math.random()*5;
+var dy=Math.random()*5;
+var radius=Math.random()*10;
+var x=Math.random()*300+radius;
+var y=Math.random()*300+radius;
 
 function reset_circle(){
-	radius=Math.random()*30;
-	x=Math.random()*window.innerWidth*0.9+radius;
-	y=Math.random()*window.innerHeight*0.9+radius;
-	dx=Math.random()*10-5;
-	dy=Math.random()*10-5;
+	radius=Math.random()*10;
+	x=Math.random()*300+radius;
+	y=Math.random()*300+radius;
+	dx=Math.random()*5;
+	dy=Math.random()*5;
 	//document.getElementById('radius').innerHTML="球球起始参数："+
 	//"<br>"+"radius： "+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y+"<br>"+"dx：    "+dx+"<br>"+"dy：    "+dy;
 }
@@ -117,31 +116,27 @@ function reset_circle(){
 {
 	requestAnimationFrame(animate);
 
-	ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-	ctx.beginPath();
-	ctx.arc(x,y,radius,0,Math.PI*2,false);
-
-	//ctx.fillRect(window.innerWidth/2-10,0,window.innerWidth/2,10);
-//	ctx.fillRect(0,0,window.innerWidth/2,window.innerHeight/2);
-	
-	//ctx.drawImage(imgobj,0,0,200,200);
-//	ctx.closePath();
+	cxt.clearRect(0,0,window.innerWidth,window.innerHeight);
+	cxt.beginPath();
+	cxt.arc(x,y,radius,0,Math.PI*2,false);
+	//cxt.drawImage(imgobj,0,0,200,200);
+//	cxt.closePath();
 	// 圆的边边
-//	ctx.stroke();
-	ctx.fill()
+//	cxt.stroke();
+	cxt.fill()
 
 	// 反弹
 	// 水平
 	if (x+radius>window.innerWidth || x-radius<0)
 	{
 		dx=-dx;
-		ctx.fillStyle=change_color_circle();
+		cxt.fillStyle=change_color_circle();
 	}
 	// 竖直
 	if (y+radius>window.innerHeight || y-radius<0)
 	{
 		dy=-dy;
-		ctx.fillStyle=change_color_circle();
+		cxt.fillStyle=change_color_circle();
 	}
 	x+=dx;
 	y+=dy;
