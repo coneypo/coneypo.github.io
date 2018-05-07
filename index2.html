@@ -7,7 +7,7 @@
 	#canvas{
     border: 1px solid black;
 	}
-	body {background-image:url(bk2.jpg);}
+	body {background-image:url(https://files.cnblogs.com/files/AdaminXie/bg6.bmp);}
 	</style>
 </head>
 
@@ -17,38 +17,41 @@
 <div>
 <script>
 var imgbackgroud=new Image();
-imgbackgroud.src="F:\code\git\coneypo.github.io\pts\bees2.jpg";
+imgbackgroud.src="https://files.cnblogs.com/files/AdaminXie/bg6.bmp";
 </script>
 </div>
 
-<div align="center"><canvas id="myCanvas" style="border:1px solid #c3c3c3;">
-</canvas></div>
+<div align="center"><canvas id="myCanvas" style="border:1px solid #c3c3c3; onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()"></canvas></div>
+
 <br>
-<div id='radius' style="text-align:center;">radius:</div>
+
+<div id='radius' style="text-align:center;" align="left">radius:</div>
 
 <div align="center">
 <script type="text/javascript">
 
 var c=document.getElementById("myCanvas");
-c.width=350;
-c.height=350;
+c.width=550;
+c.height=550;
 var cxt=c.getContext("2d");
 cxt.fillStyle="#FF0000";
 
 // 初始化坐标
-var dx=Math.random()*5;
-var dy=Math.random()*5;
-var radius=Math.random()*50;
-var x=Math.random()*250+radius;
-var y=Math.random()*250+radius;
+var dx=Math.random()*10;
+var dy=Math.random()*10;
+var radius=Math.random()*10;
+var x=Math.random()*50+radius;
+var y=Math.random()*50+radius;
 
 function reset_circle(){
-	radius=Math.random()*50;
-	x=Math.random()*250+radius;
-	y=Math.random()*250+radius;
-	dx=Math.random()*5;
-	dy=Math.random()*5;
+	cxt.clearRect(0,0,550,550);
+	radius=Math.random()*10;
+	x=Math.random()*50+radius;
+	y=Math.random()*50+radius;
+	dx=Math.random()*10;
+	dy=Math.random()*10;
 	document.getElementById('radius').innerHTML="球球起始参数："+"<br>"+"radius： "+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y;
+	document.getElementById('radius').align='left';
 }
 	
 document.getElementById('radius').innerHTML="球球起始参数："+"<br>"+"radius："+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y;
@@ -61,7 +64,7 @@ imgobj.src="https://img2.woyaogexing.com/2017/12/29/b8cf2985aadb3024!400x400_big
 {
 	requestAnimationFrame(animate);
 
-	cxt.clearRect(0,0,500,500);
+	cxt.clearRect(50,50,450,450);
 	cxt.beginPath();
 	cxt.arc(x,y,radius,0,Math.PI*2,false);
 	//cxt.drawImage(imgobj,x,y,100,100);
@@ -74,13 +77,13 @@ imgobj.src="https://img2.woyaogexing.com/2017/12/29/b8cf2985aadb3024!400x400_big
 
 	// 反弹
 	// 水平
-	if (x+radius>350 || x-radius<0)
+	if (x+radius>550 || x-radius<0)
 	{
 		dx=-dx;
 		cxt.fillStyle=change_color_circle();
 	}
 	// 竖直
-	if (y+radius>350 || y-radius<0)
+	if (y+radius>550 || y-radius<0)
 	{
 		dy=-dy;
 		cxt.fillStyle=change_color_circle();
@@ -123,6 +126,25 @@ function change_color_circle()
 </script>
 <br>
 <div align="center"><button onclick="reset_circle()"> RESET </button></div>
+
+<script type="text/javascript"> 
+function cnvs_getCoordinates(e)
+{
+x=e.clientX;
+y=e.clientY;
+document.getElementById("xycoordinates").innerHTML="Coordinates: (" + x + "," + y + ")";
+}
+ 
+function cnvs_clearCoordinates()
+{
+document.getElementById("xycoordinates").innerHTML="";
+}
+</script>
+
+<p>把鼠标悬停在下面的矩形上可以看到坐标：</p>
+
+
+<div id="xycoordinates"></div>
 
 <br><br>
 
