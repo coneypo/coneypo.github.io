@@ -95,6 +95,18 @@ var radius=Math.random()*30;
 var x=Math.random()*window.innerWidth*0.9+radius;
 var y=Math.random()*window.innerHeight*0.9+radius;
 
+// 获取鼠标坐标
+var mouse = {
+    x: undefined,
+    y: undefined
+}
+// console将会跟随鼠标移动输出相应坐标
+window.addEventListener("mousemove",function(event){
+	mouse.x=event.x;
+	mouse.y=event.y;
+	console.log(mouse);
+	document.getElementById('pos_mouse').innerHTML="鼠标坐标："+mouse.x+" "+mouse.y;
+});
 
 function reset_circle(){
 	radius=Math.random()*30;
@@ -120,6 +132,7 @@ function reset_circle(){
 	ctx.beginPath();
 	ctx.arc(x,y,radius,0,Math.PI*2,false);
 
+	document.getElementById('pos_ball').innerHTML="球球坐标："+Math.ceil(x)+" "+Math.ceil(y)+" "+"球球半径："+Math.ceil(radius);
 	//ctx.fillRect(window.innerWidth/2-10,0,window.innerWidth/2,10);
 //	ctx.fillRect(0,0,window.innerWidth/2,window.innerHeight/2);
 	
@@ -144,7 +157,15 @@ function reset_circle(){
 	}
 	x+=dx;
 	y+=dy;
-
+	
+	if (( (mouse.x-x<50)&&(x-mouse.x<50) )&& ( (mouse.y-y<50)&&(y-mouse.y<50) ))
+	{
+		if(radius<100)
+		{radius+=1;}
+	}
+	else if(radius>10)
+	{radius=radius-1;}
+	
 })();
 
 // 改变球球的颜色
@@ -160,9 +181,15 @@ function change_color_circle()
 		}
 		return circle_color;
 }	
+
+
+
 </script>
 <br>
 <div align="center"><button onclick="reset_circle()"> RESET </button></div>
+
+<p id="pos_ball">球球坐标：<p>
+<p id="pos_mouse">鼠标坐标：<p>
 
 <br><br>
 
