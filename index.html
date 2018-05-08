@@ -2,15 +2,13 @@
 <html>
 
 <head>
-	<title>welcome</title>
+	<title>coneypo's web</title>
 	<style type="text/css">
-	#canvas{
-    border: 1px solid black;
-	}
 	body{
 		margin: 0;
 		padding: 0;
-		background:repeating-linear-gradient(45deg, #555555 0,#555555 10%, #EEEEEE 0,#EEEEEE 50%) 0 / 15px 15px;	}
+		background:repeating-linear-gradient(45deg, #FFFFFF 0,#FFFFFF 10%, #EEEEEE 0,#EEEEEE 50%) 0 / 15px 15px;	
+	}
 	.text{
 		font-family=
 	}
@@ -71,13 +69,15 @@
   <div class="line line14"></div>
   <div class="line line15"></div>
   
-<div align="center"><canvas id="myCanvas" style="border:1px solid #c3c3c3;">
-</canvas></div>
+
+<canvas id="myCanvas" style="border:1px solid;">
+</canvas>
 <br>
 
 <div align="center">
 <script type="text/javascript">
 
+ 
 var c=document.getElementById("myCanvas");
 
 //c.width=400;
@@ -88,89 +88,69 @@ c.height=window.innerHeight;
 var ctx=c.getContext("2d");
 ctx.fillStyle="#000000";
 
-// 初始化坐标
-var dx=Math.random()*10-5;
-var dy=Math.random()*10-5;
-var radius=Math.random()*30;
-var x=Math.random()*window.innerWidth*0.9+radius;
-var y=Math.random()*window.innerHeight*0.9+radius;
 
 // 获取鼠标坐标
 var mouse = {
     x: undefined,
     y: undefined
 }
+
 // console将会跟随鼠标移动输出相应坐标
 window.addEventListener("mousemove",function(event){
 	mouse.x=event.x;
 	mouse.y=event.y;
 	console.log(mouse);
+	document.getElementById('size_window').innerHTML="窗口尺寸："+window.innerWidth+" "+window.innerHeight;
 	document.getElementById('pos_mouse').innerHTML="鼠标坐标："+mouse.x+" "+mouse.y;
 });
 
-function reset_circle(){
-	radius=Math.random()*30;
-	x=Math.random()*window.innerWidth*0.9+radius;
-	y=Math.random()*window.innerHeight*0.9+radius;
-	dx=Math.random()*10-5;
-	dy=Math.random()*10-5;
-	//document.getElementById('radius').innerHTML="球球起始参数："+
-	//"<br>"+"radius： "+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y+"<br>"+"dx：    "+dx+"<br>"+"dy：    "+dy;
-}
-	
-//document.getElementById('radius').innerHTML="球球起始参数："+
-//	"<br>"+"radius： "+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y+"<br>"+"dx：    "+dx+"<br>"+"dy：    "+dy;
-
-//var imgobj=new Image();
-//imgobj.src="http://a.hiphotos.baidu.com/image/pic/item/7af40ad162d9f2d307eddbb9a5ec8a136227ccec.jpg";
-
-(function animate()
+function circle(x,y,dx,dy,radius)
 {
-	requestAnimationFrame(animate);
-
-	ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-	ctx.beginPath();
-	ctx.arc(x,y,radius,0,Math.PI*2,false);
-
-	document.getElementById('pos_ball').innerHTML="球球坐标："+Math.ceil(x)+" "+Math.ceil(y)+" "+"球球半径："+Math.ceil(radius);
-	//ctx.fillRect(window.innerWidth/2-10,0,window.innerWidth/2,10);
-//	ctx.fillRect(0,0,window.innerWidth/2,window.innerHeight/2);
+	this.x=x;
+	this.y=y;
+	this.dx=dx;
+	this.dy=dy;
+	this.radius=radius;
 	
-	//ctx.drawImage(imgobj,0,0,200,200);
-//	ctx.closePath();
-	// 圆的边边
-//	ctx.stroke();
-	ctx.fill()
+	this.reset_circle=function()
+	{
+		radius=Math.random()*50;
+		x=Math.random()*window.innerWidth*0.9+radius;
+		y=Math.random()*window.innerHeight*0.9+radius;
+		dx=Math.random()*10-5;
+		dy=Math.random()*10-5;	
+	//	document.getElementById('size_window').innerHTML="窗口尺寸："+window.innerWidth+" "+window.innerHeight;
+	}
 
-	// 反弹
-	// 水平
-	if (x+radius>window.innerWidth || x-radius<0)
-	{
-		dx=-dx;
-		ctx.fillStyle=change_color_circle();
+	this.draw=function()
+	{	ctx.beginPath();
+		ctx.arc(x,y,radius,0,Math.PI*2,false);
+		ctx.stroke();
 	}
-	// 竖直
-	if (y+radius>window.innerHeight || y-radius<0)
+	this.update=function()
 	{
-		dy=-dy;
-		ctx.fillStyle=change_color_circle();
-	}
-	x+=dx;
-	y+=dy;
-	
-	if (( (mouse.x-x<50)&&(x-mouse.x<50) )&& ( (mouse.y-y<50)&&(y-mouse.y<50) ))
-	{
-		if(radius<100)
-		{radius+=1;}
-	}
-	else if(radius>10)
-	{radius=radius-1;}
-	
-})();
+		// 边缘反弹
+		if(x+radius>innerWidth||x-radius<0){dx=-dx;}
+		if(y+radius>innerHeight||y-radius<0){dy=-dy;}
+		x+=dx;
+		y+=dy;
+		
+		// 鼠标调整
+		if (mouse.x - x < 100 && mouse.x - x >-100 && mouse.y - y < 100 && mouse.y - y >-100) {
+			if (radius < 100) {
+				radius += 2;
+			}
+		}
+		else if (radius > 20) {
+				radius -= 1;
+			}
+		
 
-// 改变球球的颜色
-function change_color_circle()
-{		var circle_color;
+		this.draw();
+	}
+	this.change_color_circle=function()
+	{		
+		var circle_color;
 		rand_num_change_color=(Math.random());
 		if (rand_num_change_color>0.5)
 		{
@@ -180,15 +160,45 @@ function change_color_circle()
 		{circle_color='#000000'
 		}
 		return circle_color;
-}	
+	}	
+}
 
+//存放圆的数组
+var circlearray=[];
 
+for(var i=0;i<100;i++){		
+	// 初始化坐标
+	var dx=Math.random()*10-5;
+	var dy=Math.random()*10-5;
+	var radius=Math.random()*50;
+	var x=Math.random()*window.innerWidth*0.9+radius;
+	var y=Math.random()*window.innerHeight*0.9+radius;
+	
+	function reset_all()
+	{
+		for (var i=0;i<circlearray.length;i++){
+			circlearray[i].reset_circle();
+		} 
+	}
+
+	circlearray.push(new circle(x,y,dx,dy,radius));
+}
+
+function animate(){
+	requestAnimationFrame(animate);
+	ctx.clearRect(0,0,innerWidth,innerHeight);
+	for (var i=0;i<circlearray.length;i++){
+		circlearray[i].update();
+	}
+}
+animate();
 
 </script>
 <br>
-<div align="center"><button onclick="reset_circle()"> RESET </button></div>
+<div align="center"><button onclick="reset_all()"> Reset </button></div>
+<br>
 
-<p id="pos_ball">球球坐标：<p>
+<p id="size_window">窗口大小：<p>
 <p id="pos_mouse">鼠标坐标：<p>
 
 <br><br>
