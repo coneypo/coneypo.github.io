@@ -1,214 +1,165 @@
 <!DOCTYPE html>
+
 <html>
-
-<head>
-	<title>coneypo's web</title>
-	<style type="text/css">
-	body{
-		margin: 0;
-		padding: 0;
-		background:repeating-linear-gradient(45deg, #FFFFFF 0,#FFFFFF 10%, #EEEEEE 0,#EEEEEE 50%) 0 / 15px 15px;	
-	}
-	.text{
-		font-family=
-	}
-	a{ 
-		text-decoration: none;
-	}
-
-	button {
-		display: inline-block;
-		border: none;
-		padding: 1rem 2rem;
-		margin: 0;
-		text-decoration: none;
-		background: #0069ed;
-		color: #ffffff;
-		font-family: sans-serif;
-		font-size: 1rem;
-		line-height: 1;
-		cursor: pointer;
-		text-align: center;
-		transition: background 250ms ease-in-out, transform 150ms ease;
-		-webkit-appearance: none;
-		-moz-appearance: none;
-	}
-
-	button:hover,
-	button:focus {
-		background: #0053ba;
-	}
-
-	button:focus {
-		outline: 1px solid #fff;
-		outline-offset: -4px;
-	}
-
-	button:active {
-		transform: scale(0.99);
-	}
-
-	</style>
-</head>
-
+        <head>  
+                <style type="text/css">  
+                        #left  
+                        {  
+                                height:1000px;  
+                                margin-right:50%;  
+                                background-color:beige;  
+								padding-left:10px;
+								overflow-y:auto
+								
+                        }  
+                        #right  
+                        {  
+                                height:innerHeight;  
+                                width:50%;  
+                                float:right;  
+                                background-color:lightcyan;  
+                        }  
+                </style>  
+        </head>  
+		
 <body>
-  
-  <div class="line line1"></div>
-  <div class="line line2"></div>
-  <div class="line line3"></div>
-  <div class="line line4"></div>
-  <div class="line line5"></div>
-  <div class="line line6"></div>
-  <div class="line line7"></div>
-  <div class="line line8"></div>
-  <div class="line line9"></div>
-  <div class="line line10"></div>
-  <div class="line line11"></div>
-  <div class="line line12"></div>
-  <div class="line line13"></div>
-  <div class="line line14"></div>
-  <div class="line line15"></div>
-  
-
-<canvas id="myCanvas" style="border:1px solid;">
-</canvas>
-<br>
-
-<div align="center">
-<script type="text/javascript">
-
- 
-var c=document.getElementById("myCanvas");
-
-//c.width=400;
-//c.height=400;
-c.width=window.innerWidth;
-c.height=window.innerHeight;
-
-var ctx=c.getContext("2d");
-ctx.fillStyle="#000000";
-
-
-// è·å–é¼ æ ‡åæ ‡
-var mouse = {
-    x: undefined,
-    y: undefined
-}
-
-// consoleå°†ä¼šè·Ÿéšé¼ æ ‡ç§»åŠ¨è¾“å‡ºç›¸åº”åæ ‡
-window.addEventListener("mousemove",function(event){
-	mouse.x=event.x;
-	mouse.y=event.y;
-	console.log(mouse);
-	document.getElementById('size_window').innerHTML="çª—å£å°ºå¯¸ï¼š"+window.innerWidth+" "+window.innerHeight;
-	document.getElementById('pos_mouse').innerHTML="é¼ æ ‡åæ ‡ï¼š"+mouse.x+" "+mouse.y;
-});
-
-function circle(x,y,dx,dy,radius)
-{
-	this.x=x;
-	this.y=y;
-	this.dx=dx;
-	this.dy=dy;
-	this.radius=radius;
+	<script type="text/javascript" src="function_show_food.js">
+	</script>
 	
-	this.reset_circle=function()
-	{
-		radius=Math.random()*50;
-		x=Math.random()*window.innerWidth*0.9+radius;
-		y=Math.random()*window.innerHeight*0.9+radius;
-		dx=Math.random()*10-5;
-		dy=Math.random()*10-5;	
-	//	document.getElementById('size_window').innerHTML="çª—å£å°ºå¯¸ï¼š"+window.innerWidth+" "+window.innerHeight;
-	}
+	<div id="right">
+		<strong><p>  ÓªÑøËØ£¨Ã¿100g£©</p></strong>
 
-	this.draw=function()
-	{	ctx.beginPath();
-		ctx.arc(x,y,radius,0,Math.PI*2,false);
-		ctx.stroke();
-	}
-	this.update=function()
-	{
-		// è¾¹ç¼˜åå¼¹
-		if(x+radius>innerWidth||x-radius<0){dx=-dx;}
-		if(y+radius>innerHeight||y-radius<0){dy=-dy;}
-		x+=dx;
-		y+=dy;
 		
-		// é¼ æ ‡è°ƒæ•´
-		if (mouse.x - x < 100 && mouse.x - x >-100 && mouse.y - y < 100 && mouse.y - y >-100) {
-			if (radius < 100) {
-				radius += 2;
-			}
-		}
-		else if (radius > 20) {
-				radius -= 1;
-			}
-		
+		<ol>
+			<dt>ÈÈÁ¿:<dd id="ÈÈÁ¿µÄ">-
+			<dt>Ö¬·¾:<dd id="Ö¬·¾µÄ">-
+			<dt>µ°°×ÖÊ:<dd id="µ°°×ÖÊµÄ">-
+			<dt>Ì¼Ë®»¯ºÏÎï:<dd id="Ì¼Ë®»¯ºÏÎïµÄ">-
+			<dt>ÉÅÊ³ÏËÎ¬:<dd id="ÉÅÊ³ÏËÎ¬µÄ">-
+			<dt>Áò°·ËØ:<dd id="Áò°·ËØµÄ">-
+			<dt>¸Æ:<dd id="¸ÆµÄ">-
+			<dt>ºË»ÆËØ:<dd id="ºË»ÆËØµÄ">-
+			<dt>Ã¾:<dd id="Ã¾µÄ">-
+			<dt>ÑÌËá:<dd id="ÑÌËáµÄ">-
+			<dt>Ìú:<dd id="ÌúµÄ">-
+			<dt>Î¬ÉúËØC:<dd id="Î¬ÉúËØCµÄ">-
+			<dt>ÃÌ:<dd id="ÃÌµÄ">-
+			<dt>Î¬ÉúËØE:<dd id="Î¬ÉúËØEµÄ">-
+			<dt>Ğ¿:<dd id="Ğ¿µÄ">-
+			<dt>Î¬ÉúËØA:<dd id="Î¬ÉúËØAµÄ">-
+			<dt>µ¨¹Ì´¼:<dd id="µ¨¹Ì´¼µÄ">-
+			<dt>Í­:<dd id="Í­µÄ">-
+			<dt>ºúÂŞ²·ËØ:<dd id="ºúÂŞ²·ËØµÄ">-
+			<dt>¼Ø:<dd id="¼ØµÄ">-
+			<dt>Á×:<dd id="Á×µÄ">-
+			<dt>ÊÓ»Æ´¼µ±Á¿:<dd id="ÊÓ»Æ´¼µ±Á¿µÄ">-
+			<dt>ÄÆ:<dd id="ÄÆµÄ">-
+			<dt>Îø:<dd id="ÎøµÄ">-
 
-		this.draw();
-	}
-	this.change_color_circle=function()
-	{		
-		var circle_color;
-		rand_num_change_color=(Math.random());
-		if (rand_num_change_color>0.5)
-		{
-			circle_color='#FFFFFF';
-		}
-		else
-		{circle_color='#000000'
-		}
-		return circle_color;
-	}	
-}
 
-//å­˜æ”¾åœ†çš„æ•°ç»„
-var circlearray=[];
+		</ol>
+	</div>
 
-for(var i=0;i<100;i++){		
-	// åˆå§‹åŒ–åæ ‡
-	var dx=Math.random()*10-5;
-	var dy=Math.random()*10-5;
-	var radius=Math.random()*50;
-	var x=Math.random()*window.innerWidth*0.9+radius;
-	var y=Math.random()*window.innerHeight*0.9+radius;
+	<div id="left">
+    <br>
+	<table >
+
+	<tr><td>Ğ¡Ã×:  </td><td><input type='text' name='text' id='input_num_1'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_1();"></td><td>&nbsp;&nbsp;<button onclick="show_food_1()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÂøÍ·:  </td><td><input type='text' name='text' id='input_num_2'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_2();"></td><td>&nbsp;&nbsp;<button onclick="show_food_2()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÃæÌõ:  </td><td><input type='text' name='text' id='input_num_3'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_3();"></td><td>&nbsp;&nbsp;<button onclick="show_food_3()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¾¬Ã×:  </td><td><input type='text' name='text' id='input_num_4'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_4();"></td><td>&nbsp;&nbsp;<button onclick="show_food_4()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÓñÃ×:  </td><td><input type='text' name='text' id='input_num_5'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_5();"></td><td>&nbsp;&nbsp;<button onclick="show_food_5()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¶¹¸¯:  </td><td><input type='text' name='text' id='input_num_6'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_6();"></td><td>&nbsp;&nbsp;<button onclick="show_food_6()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¸ßÁ»Ã×:  </td><td><input type='text' name='text' id='input_num_7'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_7();"></td><td>&nbsp;&nbsp;<button onclick="show_food_7()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>»Æ¶¹:  </td><td><input type='text' name='text' id='input_num_8'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_8();"></td><td>&nbsp;&nbsp;<button onclick="show_food_8()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Çà¶¹:  </td><td><input type='text' name='text' id='input_num_9'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_9();"></td><td>&nbsp;&nbsp;<button onclick="show_food_9()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ºÚ¶¹:  </td><td><input type='text' name='text' id='input_num_10'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_10();"></td><td>&nbsp;&nbsp;<button onclick="show_food_10()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>³àĞ¡¶¹:  </td><td><input type='text' name='text' id='input_num_11'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_11();"></td><td>&nbsp;&nbsp;<button onclick="show_food_11()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÂÌ¶¹:  </td><td><input type='text' name='text' id='input_num_12'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_12();"></td><td>&nbsp;&nbsp;<button onclick="show_food_12()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Íã¶¹:  </td><td><input type='text' name='text' id='input_num_13'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_13();"></td><td>&nbsp;&nbsp;<button onclick="show_food_13()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ËÄ¼¾¶¹:  </td><td><input type='text' name='text' id='input_num_14'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_14();"></td><td>&nbsp;&nbsp;<button onclick="show_food_14()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>²Ï¶¹:  </td><td><input type='text' name='text' id='input_num_15'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_15();"></td><td>&nbsp;&nbsp;<button onclick="show_food_15()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>»Æ¶¹Ñ¿:  </td><td><input type='text' name='text' id='input_num_16'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_16();"></td><td>&nbsp;&nbsp;<button onclick="show_food_16()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÂÌ¶¹Ñ¿:  </td><td><input type='text' name='text' id='input_num_17'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_17();"></td><td>&nbsp;&nbsp;<button onclick="show_food_17()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>´Ğ:  </td><td><input type='text' name='text' id='input_num_18'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_18();"></td><td>&nbsp;&nbsp;<button onclick="show_food_18()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>´óËâ:  </td><td><input type='text' name='text' id='input_num_19'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_19();"></td><td>&nbsp;&nbsp;<button onclick="show_food_19()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÓóÍ·:  </td><td><input type='text' name='text' id='input_num_20'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_20();"></td><td>&nbsp;&nbsp;<button onclick="show_food_20()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ºìÂÜ²·:  </td><td><input type='text' name='text' id='input_num_21'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_21();"></td><td>&nbsp;&nbsp;<button onclick="show_food_21()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>İ©Üù:  </td><td><input type='text' name='text' id='input_num_22'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_22();"></td><td>&nbsp;&nbsp;<button onclick="show_food_22()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ºìÊí:  </td><td><input type='text' name='text' id='input_num_23'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_23();"></td><td>&nbsp;&nbsp;<button onclick="show_food_23()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Åº:  </td><td><input type='text' name='text' id='input_num_24'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_24();"></td><td>&nbsp;&nbsp;<button onclick="show_food_24()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>°×ÂÜ²·:  </td><td><input type='text' name='text' id='input_num_25'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_25();"></td><td>&nbsp;&nbsp;<button onclick="show_food_25()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÍÁ¶¹:  </td><td><input type='text' name='text' id='input_num_26'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_26();"></td><td>&nbsp;&nbsp;<button onclick="show_food_26()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>²¤²Ë:  </td><td><input type='text' name='text' id='input_num_27'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_27();"></td><td>&nbsp;&nbsp;<button onclick="show_food_27()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>À±½·:  </td><td><input type='text' name='text' id='input_num_28'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_28();"></td><td>&nbsp;&nbsp;<button onclick="show_food_28()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¾Â²Ë:  </td><td><input type='text' name='text' id='input_num_29'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_29();"></td><td>&nbsp;&nbsp;<button onclick="show_food_29()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÜÈ²Ë:  </td><td><input type='text' name='text' id='input_num_30'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_30();"></td><td>&nbsp;&nbsp;<button onclick="show_food_30()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>°×²Ë:  </td><td><input type='text' name='text' id='input_num_31'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_31();"></td><td>&nbsp;&nbsp;<button onclick="show_food_31()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ïã²Ë:  </td><td><input type='text' name='text' id='input_num_32'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_32();"></td><td>&nbsp;&nbsp;<button onclick="show_food_32()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÇÛ²Ë¾¥:  </td><td><input type='text' name='text' id='input_num_33'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_33();"></td><td>&nbsp;&nbsp;<button onclick="show_food_33()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ä¢¹½:  </td><td><input type='text' name='text' id='input_num_34'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_34();"></td><td>&nbsp;&nbsp;<button onclick="show_food_34()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ïã¹½:  </td><td><input type='text' name='text' id='input_num_35'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_35();"></td><td>&nbsp;&nbsp;<button onclick="show_food_35()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ä¾¶ú:  </td><td><input type='text' name='text' id='input_num_36'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_36();"></td><td>&nbsp;&nbsp;<button onclick="show_food_36()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>º£´ø:  </td><td><input type='text' name='text' id='input_num_37'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_37();"></td><td>&nbsp;&nbsp;<button onclick="show_food_37()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>×Ï²Ë:  </td><td><input type='text' name='text' id='input_num_38'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_38();"></td><td>&nbsp;&nbsp;<button onclick="show_food_38()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÄÏ¹Ï:  </td><td><input type='text' name='text' id='input_num_39'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_39();"></td><td>&nbsp;&nbsp;<button onclick="show_food_39()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Î÷ºùÂ«:  </td><td><input type='text' name='text' id='input_num_40'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_40();"></td><td>&nbsp;&nbsp;<button onclick="show_food_40()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ë¿¹Ï:  </td><td><input type='text' name='text' id='input_num_41'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_41();"></td><td>&nbsp;&nbsp;<button onclick="show_food_41()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÇÑ×Ó:  </td><td><input type='text' name='text' id='input_num_42'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_42();"></td><td>&nbsp;&nbsp;<button onclick="show_food_42()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¶¬¹Ï:  </td><td><input type='text' name='text' id='input_num_43'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_43();"></td><td>&nbsp;&nbsp;<button onclick="show_food_43()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Î÷¹Ï:  </td><td><input type='text' name='text' id='input_num_44'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_44();"></td><td>&nbsp;&nbsp;<button onclick="show_food_44()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ìğ¹Ï:  </td><td><input type='text' name='text' id='input_num_45'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_45();"></td><td>&nbsp;&nbsp;<button onclick="show_food_45()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>²Ë¹Ï:  </td><td><input type='text' name='text' id='input_num_46'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_46();"></td><td>&nbsp;&nbsp;<button onclick="show_food_46()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>»Æ¹Ï:  </td><td><input type='text' name='text' id='input_num_47'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_47();"></td><td>&nbsp;&nbsp;<button onclick="show_food_47()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Î÷ºìÊÁ:  </td><td><input type='text' name='text' id='input_num_48'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_48();"></td><td>&nbsp;&nbsp;<button onclick="show_food_48()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÊÁ:  </td><td><input type='text' name='text' id='input_num_49'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_49();"></td><td>&nbsp;&nbsp;<button onclick="show_food_49()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ôæ:  </td><td><input type='text' name='text' id='input_num_50'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_50();"></td><td>&nbsp;&nbsp;<button onclick="show_food_50()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Æ»¹û:  </td><td><input type='text' name='text' id='input_num_51'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_51();"></td><td>&nbsp;&nbsp;<button onclick="show_food_51()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ïã½¶:  </td><td><input type='text' name='text' id='input_num_52'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_52();"></td><td>&nbsp;&nbsp;<button onclick="show_food_52()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Àæ:  </td><td><input type='text' name='text' id='input_num_53'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_53();"></td><td>&nbsp;&nbsp;<button onclick="show_food_53()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ĞÓ:  </td><td><input type='text' name='text' id='input_num_54'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_54();"></td><td>&nbsp;&nbsp;<button onclick="show_food_54()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Àî:  </td><td><input type='text' name='text' id='input_num_55'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_55();"></td><td>&nbsp;&nbsp;<button onclick="show_food_55()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÌÒ:  </td><td><input type='text' name='text' id='input_num_56'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_56();"></td><td>&nbsp;&nbsp;<button onclick="show_food_56()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ó£ÌÒ:  </td><td><input type='text' name='text' id='input_num_57'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_57();"></td><td>&nbsp;&nbsp;<button onclick="show_food_57()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÆÏÌÑ:  </td><td><input type='text' name='text' id='input_num_58'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_58();"></td><td>&nbsp;&nbsp;<button onclick="show_food_58()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>»¨ÉúÈÊ:  </td><td><input type='text' name='text' id='input_num_59'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_59();"></td><td>&nbsp;&nbsp;<button onclick="show_food_59()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Àõ×Ó:  </td><td><input type='text' name='text' id='input_num_60'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_60();"></td><td>&nbsp;&nbsp;<button onclick="show_food_60()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ĞÓÈÊ:  </td><td><input type='text' name='text' id='input_num_61'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_61();"></td><td>&nbsp;&nbsp;<button onclick="show_food_61()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Áâ½Ç:  </td><td><input type='text' name='text' id='input_num_62'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_62();"></td><td>&nbsp;&nbsp;<button onclick="show_food_62()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Å£Èâ:  </td><td><input type='text' name='text' id='input_num_63'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_63();"></td><td>&nbsp;&nbsp;<button onclick="show_food_63()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Å£¸Î:  </td><td><input type='text' name='text' id='input_num_64'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_64();"></td><td>&nbsp;&nbsp;<button onclick="show_food_64()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÑòÈâ:  </td><td><input type='text' name='text' id='input_num_65'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_65();"></td><td>&nbsp;&nbsp;<button onclick="show_food_65()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ñò¸Î:  </td><td><input type='text' name='text' id='input_num_66'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_66();"></td><td>&nbsp;&nbsp;<button onclick="show_food_66()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÖíÈâ:  </td><td><input type='text' name='text' id='input_num_67'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_67();"></td><td>&nbsp;&nbsp;<button onclick="show_food_67()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Öí¸Î:  </td><td><input type='text' name='text' id='input_num_68'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_68();"></td><td>&nbsp;&nbsp;<button onclick="show_food_68()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Å£ÄÌ:  </td><td><input type='text' name='text' id='input_num_69'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_69();"></td><td>&nbsp;&nbsp;<button onclick="show_food_69()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¼¦Èâ:  </td><td><input type='text' name='text' id='input_num_70'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_70();"></td><td>&nbsp;&nbsp;<button onclick="show_food_70()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¼¦µ°:  </td><td><input type='text' name='text' id='input_num_71'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_71();"></td><td>&nbsp;&nbsp;<button onclick="show_food_71()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ñ¼µ°:  </td><td><input type='text' name='text' id='input_num_72'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_72();"></td><td>&nbsp;&nbsp;<button onclick="show_food_72()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÏÌÑ¼µ°:  </td><td><input type='text' name='text' id='input_num_73'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_73();"></td><td>&nbsp;&nbsp;<button onclick="show_food_73()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÇàÍÜ:  </td><td><input type='text' name='text' id='input_num_74'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_74();"></td><td>&nbsp;&nbsp;<button onclick="show_food_74()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¼×Óã:  </td><td><input type='text' name='text' id='input_num_75'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_75();"></td><td>&nbsp;&nbsp;<button onclick="show_food_75()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ïº:  </td><td><input type='text' name='text' id='input_num_76'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_76();"></td><td>&nbsp;&nbsp;<button onclick="show_food_76()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÌïÂİ:  </td><td><input type='text' name='text' id='input_num_77'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_77();"></td><td>&nbsp;&nbsp;<button onclick="show_food_77()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¸òòÛ:  </td><td><input type='text' name='text' id='input_num_78'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_78();"></td><td>&nbsp;&nbsp;<button onclick="show_food_78()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>öêÓã:  </td><td><input type='text' name='text' id='input_num_79'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_79();"></td><td>&nbsp;&nbsp;<button onclick="show_food_79()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÀğÓã:  </td><td><input type='text' name='text' id='input_num_80'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_80();"></td><td>&nbsp;&nbsp;<button onclick="show_food_80()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>÷­Óã:  </td><td><input type='text' name='text' id='input_num_81'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_81();"></td><td>&nbsp;&nbsp;<button onclick="show_food_81()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>´øÓã:  </td><td><input type='text' name='text' id='input_num_82'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_82();"></td><td>&nbsp;&nbsp;<button onclick="show_food_82()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>»Æ»¨Óã:  </td><td><input type='text' name='text' id='input_num_83'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_83();"></td><td>&nbsp;&nbsp;<button onclick="show_food_83()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ÖíÓÍ:  </td><td><input type='text' name='text' id='input_num_84'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_84();"></td><td>&nbsp;&nbsp;<button onclick="show_food_84()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ö¥ÂéÓÍ:  </td><td><input type='text' name='text' id='input_num_85'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_85();"></td><td>&nbsp;&nbsp;<button onclick="show_food_85()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>»¨ÉúÓÍ:  </td><td><input type='text' name='text' id='input_num_86'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_86();"></td><td>&nbsp;&nbsp;<button onclick="show_food_86()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>Ö¥Âé½´:  </td><td><input type='text' name='text' id='input_num_87'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_87();"></td><td>&nbsp;&nbsp;<button onclick="show_food_87()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¶¹ÓÍ:  </td><td><input type='text' name='text' id='input_num_88'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_88();"></td><td>&nbsp;&nbsp;<button onclick="show_food_88()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¹ÒÃæ:  </td><td><input type='text' name='text' id='input_num_89'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_89();"></td><td>&nbsp;&nbsp;<button onclick="show_food_89()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>ôø¶¹:  </td><td><input type='text' name='text' id='input_num_90'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_90();"></td><td>&nbsp;&nbsp;<button onclick="show_food_90()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+	<tr><td>¶¹½Ç:  </td><td><input type='text' name='text' id='input_num_91'> g &nbsp;</td><td><input type="button" value="È·ÈÏ" onclick="input_ensure_food_91();"></td><td>&nbsp;&nbsp;<button onclick="show_food_91()">ÏÔÊ¾ÓªÑøËØ</button> <br><br><td></tr>
+
+	</table>
 	
-	function reset_all()
-	{
-		for (var i=0;i<circlearray.length;i++){
-			circlearray[i].reset_circle();
-		} 
-	}
+	</div>
 
-	circlearray.push(new circle(x,y,dx,dy,radius));
-}
-
-function animate(){
-	requestAnimationFrame(animate);
-	ctx.clearRect(0,0,innerWidth,innerHeight);
-	for (var i=0;i<circlearray.length;i++){
-		circlearray[i].update();
-	}
-}
-animate();
-
-</script>
-<br>
-<div align="center"><button onclick="reset_all()"> Reset </button></div>
-<br>
-
-<p id="size_window">çª—å£å¤§å°ï¼š<p>
-<p id="pos_mouse">é¼ æ ‡åæ ‡ï¼š<p>
-
-<br><br>
-
-<!--linkåœ°å€--> 
-<a class="text" href="https://github.com/coneypo/" >GitHub</a> &nbsp;&nbsp
-<a href="http://www.cnblogs.com/AdaminXie/">Blog</a><br>
-<br>
-<a href="mailto:coneypo@foxmail.com">Mail to Me</a><br />
-
-<br>
 </body>
+
 </html>
