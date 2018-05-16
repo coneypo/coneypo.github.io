@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>welcome</title>
+	<style type="text/css">
+	#canvas{
+    border: 1px solid black;
+	}
+	body{
+		margin: 0;
+		padding: 0;
+		background:repeating-linear-gradient(45deg, #E0FFFF 0,#E0FFFF 10%, #87CEFF 0,#87CEFF 50%) 0 / 20px 20px;
+	}
+	.text{
+		font-family=
+	}
+	a{ 
+		text-decoration: none;
+	}
+
+	button {
+		display: inline-block;
+		border: none;
+		padding: 1rem 2rem;
+		margin: 0;
+		text-decoration: none;
+		background: #0069ed;
+		color: #ffffff;
+		font-family: sans-serif;
+		font-size: 1rem;
+		line-height: 1;
+		cursor: pointer;
+		text-align: center;
+		transition: background 250ms ease-in-out, transform 150ms ease;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+	}
+
+	button:hover,
+	button:focus {
+		background: #0053ba;
+	}
+
+	button:focus {
+		outline: 1px solid #fff;
+		outline-offset: -4px;
+	}
+
+	button:active {
+		transform: scale(0.99);
+	}
+
+	</style>
+</head>
+
+<body>
+  
+  <div class="line line1"></div>
+  <div class="line line2"></div>
+  <div class="line line3"></div>
+  <div class="line line4"></div>
+  <div class="line line5"></div>
+  <div class="line line6"></div>
+  <div class="line line7"></div>
+  <div class="line line8"></div>
+  <div class="line line9"></div>
+  <div class="line line10"></div>
+  <div class="line line11"></div>
+  <div class="line line12"></div>
+  <div class="line line13"></div>
+  <div class="line line14"></div>
+  <div class="line line15"></div>
+  
+<div align="center"><canvas id="myCanvas" style="border:1px solid #c3c3c3;">
+</canvas></div>
+<br>
+
+<div align="center">
+<script type="text/javascript">
+
+var c=document.getElementById("myCanvas");
+
+//c.width=400;
+//c.height=400;
+c.width=window.innerWidth;
+c.height=window.innerHeight;
+
+var cxt=c.getContext("2d");
+cxt.fillStyle="#FF0000";
+
+// 初始化坐标
+var dx=Math.random()*5;
+var dy=Math.random()*5;
+var radius=Math.random()*10;
+var x=Math.random()*300+radius;
+var y=Math.random()*300+radius;
+
+function reset_circle(){
+	radius=Math.random()*10;
+	x=Math.random()*300+radius;
+	y=Math.random()*300+radius;
+	dx=Math.random()*5;
+	dy=Math.random()*5;
+	//document.getElementById('radius').innerHTML="球球起始参数："+
+	//"<br>"+"radius： "+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y+"<br>"+"dx：    "+dx+"<br>"+"dy：    "+dy;
+}
+	
+//document.getElementById('radius').innerHTML="球球起始参数："+
+//	"<br>"+"radius： "+radius+"<br>"+"x：    "+x+"<br>"+"y：    "+y+"<br>"+"dx：    "+dx+"<br>"+"dy：    "+dy;
+
+//var imgobj=new Image();
+//imgobj.src="http://a.hiphotos.baidu.com/image/pic/item/7af40ad162d9f2d307eddbb9a5ec8a136227ccec.jpg";
+
+(function animate()
+{
+	requestAnimationFrame(animate);
+
+	cxt.clearRect(0,0,window.innerWidth,window.innerHeight);
+	cxt.beginPath();
+	cxt.arc(x,y,radius,0,Math.PI*2,false);
+	//cxt.drawImage(imgobj,0,0,200,200);
+//	cxt.closePath();
+	// 圆的边边
+//	cxt.stroke();
+	cxt.fill()
+
+	// 反弹
+	// 水平
+	if (x+radius>window.innerWidth || x-radius<0)
+	{
+		dx=-dx;
+		cxt.fillStyle=change_color_circle();
+	}
+	// 竖直
+	if (y+radius>window.innerHeight || y-radius<0)
+	{
+		dy=-dy;
+		cxt.fillStyle=change_color_circle();
+	}
+	x+=dx;
+	y+=dy;
+
+})();
+
+// 改变球球的颜色
+function change_color_circle()
+{		var circle_color;
+		rand_num_change_color=Math.ceil((Math.random())*20)-1;
+		switch(rand_num_change_color)
+		{
+			case 0:	circle_color='#87CEFF';break;
+			case 1:	circle_color='#7CFC00';break;
+			case 2:	circle_color='#CDCDC1';break;
+			case 3:	circle_color='#C71585';break;
+			case 4:	circle_color='#EE82EE';break;
+			case 5:	circle_color='#FFB90F';break;
+			case 6:	circle_color='#1E90FF';break;
+			case 7:	circle_color='#0000FF';break;
+			case 8:	circle_color='#0A0A0A';break;
+			case 9:	circle_color='#228B22';break;
+			case 10:	circle_color='#6CA6CD';break;
+			case 11:	circle_color='#8B1A1A';break;
+			case 12:	circle_color='#9A32CD';break;
+			case 13:	circle_color='#B452CD';break;
+			case 14:	circle_color='#A0522D';break;
+			case 15:	circle_color='#CDAA7D';break;
+			case 16:	circle_color='#CDC1C5';break;
+			case 17:	circle_color='#C0FF3E';break;
+			case 18:	circle_color='#EE5C42';break;
+			case 19:	circle_color='#EE2C2C';break;
+			default: circle_color='#707070'
+		}
+		return circle_color;
+}	
+</script>
+<br>
+<div align="center"><button onclick="reset_circle()"> RESET </button></div>
+
+<br><br>
+
+<!--link地址--> 
+<a class="text" href="https://github.com/coneypo/" >GitHub</a> &nbsp;&nbsp
+<a href="http://www.cnblogs.com/AdaminXie/">Blog</a><br>
+<br>
+<a href="mailto:coneypo@foxmail.com">Mail to Me</a><br />
+
+<br>
+</body>
+</html>
