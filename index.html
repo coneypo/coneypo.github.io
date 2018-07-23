@@ -1,358 +1,13 @@
 <!DOCTYPE html>
 
 <html>
-<<<<<<< HEAD
-<head>
-	<style type="text/css">
-		body{
-			padding:15%;
-			margin: 0px;
-			background-color:rgb(19,79,161);
-			color: black;
-		}
-		#index1
-=======
         <meta http-equiv="Content-Type" content="text/html; charset="utf-8" />
 	<head>  
+				<link rel="stylesheet" type="text/css" href="buttons.css">
+				<link rel="stylesheet" type="text/css" href="table1.css">
+				<link rel="stylesheet" type="text/css" href="pos.css">
 	
                 <style type="text/css">  
-						@header_background_color: #333;
-					@header_text_color: #FDFDFD;
-					@alternate_row_background_color: #DDD;
-
-					@table_width: 750px;
-					@table_body_height: 300px;
-					@column_one_width: 200px;
-					@column_two_width: 200px;
-					@column_three_width: 350px;
-
-					.fixed_headers {
-					  width: @table_width;
-					  table-layout: fixed;
-					  border-collapse: collapse;
-					  
-					  th { text-decoration: underline; }
-					  th, td {
-						padding: 5px;
-						text-align: left;
-					  }
-					  
-					  td:nth-child(1), th:nth-child(1) { min-width: @column_one_width; }
-					  td:nth-child(2), th:nth-child(2) { min-width: @column_two_width; }
-					  td:nth-child(3), th:nth-child(3) { width: @column_three_width; }
-
-					  thead {
-						background-color: @header_background_color;
-						color: @header_text_color;
-						tr {
-						  display: block;
-						  position: relative;
-						}
-					  }
-					  tbody {
-						display: block;
-						overflow: auto;
-						width: 100%;
-						height: @table_body_height;
-						tr:nth-child(even) {
-						  background-color: @alternate_row_background_color;
-						}
-					  }
-					}
-
-					.old_ie_wrapper {
-					  height: @table_body_height;
-					  width: @table_width;
-					  overflow-x: hidden;
-					  overflow-y: auto;
-					  tbody { height: auto; }
-					}
-
-					#my_table_left {
-						border-collapse: collapse; 
-						width: 100%; 
-						border: 1px solid #ddd;
-						font-size: 18px; 
-					}
-
-					#my_table_left th, #my_table_left td {
-						text-align: left;
-						padding: 12px;
-					}
-
-					#my_table_left tr {
-						/* 表格添加边框 */
-						border-bottom: 1px solid #ddd; 
-					}
-
-					#my_table_left tr.header, #my_table_left tr:hover {
-						/* 表头及鼠标移动过 tr 时添加背景 */
-						background-color: #f1f1f1;
-					}
-
-					#my_table_center {
-					  border-collapse: separate;
-					  border-spacing: 0;
-					  min-width: 100%;
-					  font-size: 12px; 
-					}
-					#my_table_center tr th,
-					#my_table_center tr td {
-					  border-top: 1px solid #bbb;
-					  border-right: 1px solid #bbb;
-					  border-bottom: 1px solid #bbb;
-					  padding: 10px;
-					  width: 20%;
-					}
-					#my_table_center tr th:first-child,
-					#my_table_center tr td:first-child {
-					  border-left: 1px solid #bbb;
-					}
-					#my_table_center tr th {
-					  background: #eee;
-					  border-top: 1px solid #bbb;
-					  text-align: left;
-					}
-
-
-					#my_table_right {
-					  min-width: 100%;
-						border-collapse: collapse; 
-						width: 100%; 
-						border: 1px solid #ddd;
-						font-size: 12px; 
-					}
-					#my_table_right tr th,
-					#my_table_right tr td {
-					  border-top: 1px solid #bbb;
-					  border-right: 1px solid #bbb;
-					  border-bottom: 1px solid #bbb;
-					  padding: 10px;
-					  width: 20%;
-					}
-					#my_table_right tr th:first-child,
-					#my_table_right tr td:first-child {
-					  border-left: 1px solid #bbb;
-					}
-					#my_table_right tr th {
-					  background: #eee;
-					  border-top: 1px solid #bbb;
-					  text-align: left;
-					}
-
-					table_1 {
-					  width: 300px;
-					  margin: 20px auto;
-					  background: #fafafa;
-					  box-sizing: border-box;
-					  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-					}
-
-					#table_1 thead {
-					  border: 1px solid #222;
-					  border-right: 0;
-					  background: #333;
-					}
-
-					#table_1 thead tr th {
-					  color: #fff;
-					  padding: 10px;
-					  border-right: 1px solid #222;
-					}
-
-					#table_1 tbody {
-					  border-left: 1px solid #ccc;
-					}
-
-					#table_1 tbody tr {
-					  border-bottom: 1px solid #ccc;
-					}
-
-					#table_1 tbody tr td {
-					  padding: 10px;
-					  border-right: 1px solid #ccc;
-					}
-					#lefttop
-					{
-							height:100px;  
-							margin-right:60%;  
-							padding-left:10px;
-							
-							background-color:beige;  
-					}
-					#left  
-					{  
-							height:800px;  
-							margin-right:60%;  
-							padding-left:10px;
-							
-							background-color:beige;  
-							overflow-y:auto;
-							
-					}  
-					#center_are  
-					{  	
-							margin-top:129px; 
-							margin-left:45%; 
-							width:25%;                             
-							height:500px; 
-							
-							position: absolute;
-							float:right;     
-							background-color:gainsboro;  
-							overflow-y:auto;
-					} 
-					#center_top
-					{
-							height:120px;  
-							width:24.3%;
-							position: absolute;
-							margin-left:45%; 								
-							background-color:gainsboro;  
-							padding-left:10px;
-					
-					}						
-					#right  
-					{ 	 
-							margin-top:120px;     
-							height:500px;  
-							width:25%;  
-							float:right;  
-							background-color:lightcyan;  
-							overflow-y:auto;
-					} 
-					#right_top
-					{
-							height:100px;  
-							width:24%;
-							position: absolute;
-							margin-left:74.2%;
-							background-color:lightcyan;  
-							padding-right:10px;
-					
-					}							
-				/*Button Two*/
-				.button-two {
-				  font-family: 'Open Sans', sans-serif;
-				  border-radius: 4px;
-				  background-color:cadetblue;
-				  position:absolute;
-				  border: none;
-				  padding: 18px;
-				  right:62%;
-				  width: 100px;
-				  color: white;
-				  transition: all 0.5s;
-				}
-
-
-				.button-two span {
-				  cursor: pointer;
-				  display: inline-block;
-				  position: relative;
-				  transition: 0.5s;
-				}
-
-				.button-two span:after {
-				  content: '>';
-				  position: absolute;
-				  opacity: 0;
-				  top: 0;
-				  right: -10px;
-				  transition: 0.5s;
-				}
-
-				.button-two:hover span {
-				  padding-right: 25px;
-				}
-
-				.button-two:hover span:after {
-				  opacity: 1;
-				  right: 0;
-				}
-
-
-
-				@import "lesshat";
-
-				.true-center {
-				  position: absolute;
-				  top: 0;
-				  bottom: 0;
-				  left: 0;
-				  right: 0;
-				  margin: auto;
-				  height: 106px;
-				  width: 690px;
-				}
-
-				.btn {
-				  position: relative;
-				  border: 0 !important;
-				  &:focus { outline: 0; }
-				  &:hover { top: 2px; }
-				  &:active { top: 6px; }
-				  cursor: pointer;
-				  -webkit-font-smoothing: antialiased;
-				  
-				  .border-radius(10);
-				  .transition(all, 50ms, ease);
-				  .btn(rgb(204, 204, 204), 20%);
-				  
-				}
-
-				.btn-primary {
-				  .btn(#428bca);
-				}
-
-				.btn-success {
-				  .btn(#5cb85c);
-				}
-
-				.btn-info {
-				  .btn(#5bc0de);
-				}
-
-				.btn-warning {
-				  .btn(#f0ad4e);
-				}
-
-				.btn-danger {
-				  .btn(#d9534f);
-				}
-
-				.btn-link {
-				  text-shadow: none;
-				  background: none !important;
-				  .box-shadow(none);
-				  &:hover { 
-					border: 0;
-					background: none !important;
-					.box-shadow(none);
-					top: 0;
-				  }
-				  &:active { 
-					.box-shadow(none); 
-					top: 0;
-				  }
-				}
-
-				.btn(@color, @percent: 10%)  {
-					border: 0;
-					text-shadow: 0px 1px 0px darken(@color, @percent);
-					background-color: @color;
-					.box-shadow(0px, 6px, 0px, darken(@color, @percent));
-					&:hover { 
-					  border: 0;
-					  background-color: lighten(@color, 5%) !important;
-					  .box-shadow(0px, 4px, 0px, darken(@color, @percent));
-					}
-					&:active { 
-					  .box-shadow(inset, 0px, 3px, 0px, darken(@color, @percent)); 
-					}
-				}
-
-					
 						body{
 							background-color:#c1bdba;
 							font-family:Arial, "Microsoft YaHei";
@@ -360,11 +15,6 @@
 						.input_style
 						{		
 								width:80px;
-								value:0;
-						}
-						.input_style_add
-						{		
-								width:22%;
 								value:0;
 						}
 						#myInput {
@@ -379,280 +29,77 @@
         </head>  
 		
 <body>
-	<script type="text/javascript">
-	//导出到excel
-	function ExportToExcel(){
-		var tab_text = "<table border='2px'><tr>";
-		var textRange; var j = 0;
-		tab = document.getElementById('my_table_center'); // id of table
-		tab1 = document.getElementById('my_table_center'); // id of table
-		
-		for (i = 0; i < tab.rows.length; i++) {
-			tab_text = tab_text + tab.rows[i].innerHTML + "</tr>";
-			//tab_text=tab_text+"</tr>";
-		}
-		
-		for (j = 0; j < tab1.rows.length; j++) {
-			tab_text = tab_text + tab1.rows[j].innerHTML + "</tr>";
-			//tab_text=tab_text+"</tr>";
-		}
 
-		tab_text = tab_text + "</table>";
-		tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
-		tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
-		tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+	<script type="text/javascript" src='function_show_food.js'></script>
+	<script type="text/javascript" src='show_num.js'></script>
 
-		//var a = document.createElement('a');
-		var ua = window.navigator.userAgent;
-		var msie = ua.indexOf("MSIE ");
-
-		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer
-		{
-			txtArea1.document.open("txt/html", "replace");
-			txtArea1.document.write(tab_text);
-			txtArea1.document.close();
-			txtArea1.focus();
-			sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
-		}
-		else //other browser not tested on IE 11
-			sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
-		return (sa);
-
-		}
-	</script>
-	
-	<script >
-			var current_n=0;
-		
-		var arr_names=new Array();
-		
-		// 24种营养素
-		var kinds_num=24;
-		
-		for (var i=0;i<92;i++)
-		{
-			arr_names[i]=0;
-		}
-		
-		// 确认输入数量
-		function input_ensure_food(n)
-		{
-			arr_names[n-1]=document.getElementById('input_num_'+n).value; 
-			document.getElementById("food"+"_cnt_"+n).innerHTML="摄入量："+arr_names[n-1];
-		}
-	
-		// 预设的
-		// 用来存储营养素种类的数值的数组
-		var n_arr = new Array();
-		
-		for (var j=0;j<24;j++)
->>>>>>> 793747bfe9730a4368ffc05fa51c83d1959b9daf
-		{
-			padding: 10%;
-			font-size: 80px;
-			font-family: "Helvetica Neue", "PingFang SC", "Microsoft Yahei", 微软雅黑, STXihei, 华文细黑, sans-serif;
-			color:white;
-		}
-		
-		button.button
-		{
-<<<<<<< HEAD
-			border-radius: 8%;
-			padding: 3rem;
-			font-family: "Helvetica Neue", "PingFang SC", "Microsoft Yahei", 微软雅黑, STXihei, 华文细黑, sans-serif;
-			font-size: 80px;
-			color:white;
-			border: solid 3px transparent;
-			background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #78e4ff, #ff48fa);
-			background-origin: border-box;
-			background-clip: content-box, border-box;
-			box-shadow: 2px 1000px 1px rgb(19,79,161) inset;
-			}
-
-		button.button:hover {
-			box-shadow: none;
-			color: white;
-=======
-			
-		}
-		
-		
-		//----------------- 增加属性 ------------------//
-		// 新增属性
-		
-		// 需要知道当前选取的行
-		function addTag(){
-			// 如果某个食物被选中之后
-			// 才能进行删减属性操作
-			
-				//获取值
-				var kind_name=document.getElementById("kind_name").value;
-				var kind_unit=document.getElementById("kind_unit").value;
-				
-				//---------------------------------
-				//添加到右边表格
-				
-				//创建元素
-				var tr_right=document.createElement("tr");
-				var td_name_right=document.createElement("td");		//名称
-				var td_num_right=document.createElement("td");		//数量
-//				td_num_right.id="n"+(n_arr.length+1);
-				var td_unit_right=document.createElement("td");		//单位
-				var td_ensure_delete_right=document.createElement("td");	//确认 和 删除
-				//var td_delete_right=document.createElement("td");	//删除
-				var a_right=document.createElement("a");
-				
-				//为元素的属性赋值
-				td_name_right.innerHTML=kind_name;
-				
-				// 中间数值输入框
-				var td_num_right_id='n'+(n_arr.length+1).toString();
-				td_num_right_id=td_num_right_id.toString();
-				td_num_right.innerHTML="<input type='text' value=0 class='input_style'>";	
-				
-				// 单位
-				td_unit_right.innerHTML=kind_unit;		
-				
-				// 确认和删除
-				td_ensure_delete_right.innerHTML="<a href='javascript:;' onclick='ensure_right_input()' >输入</a><br><br><a href='javascript:;' onclick='delete_n(this)' >删除</a>"; //
-	
-						
-				var tab_right=document.getElementById("my_table_right");  
-				tab_right.appendChild(tr_right);  
-				tr_right.appendChild(td_name_right);
-				tr_right.appendChild(td_num_right);;
-				tr_right.appendChild(td_unit_right);
-				tr_right.appendChild(td_ensure_delete_right);
-				//--------------------------------
-				
-				//添加到中间表格
-				var tr_center=document.createElement("tr");
-				var td_name_center=document.createElement("td");
-				var td_num_center=document.createElement("td");
-				td_num_center.id="sum_n"+(n_arr.length+1);
-				var td_unit_center=document.createElement("td");
-				var a_center=document.createElement("a");
-				
-				//为元素的属性赋值
-				td_name_center.innerHTML=kind_name;
-				td_unit_center.innerHTML=kind_unit;
-						
-				var tab_center=document.getElementById("my_table_center");  
-				tab_center.appendChild(tr_center);  
-				tr_center.appendChild(td_name_center);
-				tr_center.appendChild(td_num_center);
-				tr_center.appendChild(td_unit_center);
-				
-				//开一个数组用来存储新的属性参数
-				var tmp_n_arr=new Array();
-			
-				
-				for (var i=0;i<92;i++)
-				{
-					tmp_n_arr[i]=0;
-				}
-				
-				tmp_n_arr[current_n-1]=kind_num;
-				
-				//添加到数组
-				n_arr.push(tmp_n_arr);
-
-															
-			}
-
-		//删除属性
-		function delete_n(otr){
-				// 中间的表格
-				var center_table=document.getElementById("my_table_center");
-				// 右边表格
-				var right_table=otr.parentNode.parentNode;  
-
-				//alert(right_table.rowIndex);
-				center_table.deleteRow(right_table.rowIndex);
-				right_table.parentNode.removeChild(right_table);  
-			 }  
-			
-	</script>
-
-	<script type="text/javascript" src='https://rawgit.com/coneypo/coneypo.github.io/master/function_show_food.js'></script>
-	<script type="text/javascript" src='https://rawgit.com/coneypo/coneypo.github.io/master/show_num.js'></script>
-
-	
-	
 	<div id="right_top">
 	<br>
 	<strong><p>&nbsp; 营养素（每100g）</p></strong>	
-	
-	<input class="input_style_add" type="text" name="userName" id="kind_name" value="" />
-    <input class="input_style_add" type="text" name="unit" id="kind_unit" value=""/>
-	
-    <button id="add" onclick="addTag()">添加属性</button>
 	</div>
 		
 	<div id="right">
 			<table id="my_table_right">
-			<tr><td>热量</td><td id = "n1">-</td><td >千卡</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>脂肪</td><td id = "n2">-</td><td >克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>蛋白质</td><td id = "n3">-</td><td >克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>碳水化合物</td><td id = "n4">-</td><td >克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>膳食纤维</td><td id = "n5">-</td><td >克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>硫胺素</td><td id = "n6">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>钙</td><td id = "n7">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>核黄素</td><td id = "n8">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>镁</td><td id = "n9">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>烟酸</td><td id = "n10">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>铁</td><td id = "n11">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>维生素C</td><td id = "n12">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>锰</td><td id = "n13">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>维生素E</td><td id = "n14">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>锌</td><td id = "n15">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>维生素A</td><td id = "n16">-</td><td >微克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>胆固醇</td><td id = "n17">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>铜</td><td id = "n18">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>胡罗卜素</td><td id = "n19">-</td><td >微克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>钾</td><td id = "n20">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>磷</td><td id = "n21">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>视黄醇当量</td><td id = "n22">-</td><td >微克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>钠</td><td id = "n23">-</td><td >毫克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
-			<tr><td>硒</td><td id = "n24">-</td><td >微克</td><td><a href="javascript:;" onclick="delete_n(this)">删除</a></td></tr>
+			<tr><td>热量:</td><td id = "n1">-</td></tr>
+			<tr><td>脂肪:</td><td id = "n2">-</td></tr>
+			<tr><td>蛋白质:</td><td id = "n3">-</td></tr>
+			<tr><td>碳水化合物:</td><td id = "n4">-</td></tr>
+			<tr><td>膳食纤维:</td><td id = "n5">-</td></tr>
+			<tr><td>硫胺素:</td><td id = "n6">-</td></tr>
+			<tr><td>钙:</td><td id = "n7">-</td></tr>
+			<tr><td>核黄素:</td><td id = "n8">-</td></tr>
+			<tr><td>镁:</td><td id = "n9">-</td></tr>
+			<tr><td>烟酸:</td><td id = "n10">-</td></tr>
+			<tr><td>铁:</td><td id = "n11">-</td></tr>
+			<tr><td>维生素C:</td><td id = "n12">-</td></tr>
+			<tr><td>锰:</td><td id = "n13">-</td></tr>
+			<tr><td>维生素E:</td><td id = "n14">-</td></tr>
+			<tr><td>锌:</td><td id = "n15">-</td></tr>
+			<tr><td>维生素A:</td><td id = "n16">-</td></tr>
+			<tr><td>胆固醇:</td><td id = "n17">-</td></tr>
+			<tr><td>铜:</td><td id = "n18">-</td></tr>
+			<tr><td>胡罗卜素:</td><td id = "n19">-</td></tr>
+			<tr><td>钾:</td><td id = "n20">-</td></tr>
+			<tr><td>磷:</td><td id = "n21">-</td></tr>
+			<tr><td>视黄醇当量:</td><td id = "n22">-</td></tr>
+			<tr><td>钠:</td><td id = "n23">-</td></tr>
+			<tr><td>硒:</td><td id = "n24">-</td></tr>
 		</table>
 	</div>
 
 		<div id="center_top">
 		<br>
-		<input type="button" onClick="ExportToExcel();" value="导出到 Excel"/>  
-		
 		<strong><p>结算结果</p></strong>	
 		</div>
 
 		<div id="center_are">
 		<table id="my_table_center">
-			<tr><td>热量</td><td id = "sum_n1">-</td><td >千卡</td></tr>
-			<tr><td>脂肪</td><td id = "sum_n2">-</td><td >克</td></tr>
-			<tr><td>蛋白质</td><td id = "sum_n3">-</td><td >克</td></tr>
-			<tr><td>碳水化合物</td><td id = "sum_n4">-</td><td >克</td></tr>
-			<tr><td>膳食纤维</td><td id = "sum_n5">-</td><td >克</td></tr>
-			<tr><td>硫胺素</td><td id = "sum_n6">-</td><td >毫克</td></tr>
-			<tr><td>钙</td><td id = "sum_n7">-</td><td >毫克</td></tr>
-			<tr><td>核黄素</td><td id = "sum_n8">-</td><td >毫克</td></tr>
-			<tr><td>镁</td><td id = "sum_n9">-</td><td >毫克</td></tr>
-			<tr><td>烟酸</td><td id = "sum_n10">-</td><td >毫克</td></tr>
-			<tr><td>铁</td><td id = "sum_n11">-</td><td >毫克</td></tr>
-			<tr><td>维生素C</td><td id = "sum_n12">-</td><td >毫克</td></tr>
-			<tr><td>锰</td><td id = "sum_n13">-</td><td >毫克</td></tr>
-			<tr><td>维生素E</td><td id = "sum_n14">-</td><td >毫克</td></tr>
-			<tr><td>锌</td><td id = "sum_n15">-</td><td >毫克</td></tr>
-			<tr><td>维生素A</td><td id = "sum_n16">-</td><td >微克</td></tr>
-			<tr><td>胆固醇</td><td id = "sum_n17">-</td><td >毫克</td></tr>
-			<tr><td>铜</td><td id = "sum_n18">-</td><td >毫克</td></tr>
-			<tr><td>胡罗卜素</td><td id = "sum_n19">-</td><td >微克</td></tr>
-			<tr><td>钾</td><td id = "sum_n20">-</td><td >毫克</td></tr>
-			<tr><td>磷</td><td id = "sum_n21">-</td><td >毫克</td></tr>
-			<tr><td>视黄醇当量</td><td id = "sum_n22">-</td><td >微克</td></tr>
-			<tr><td>钠</td><td id = "sum_n23">-</td><td >毫克</td></tr>
-			<tr><td>硒</td><td id = "sum_n24">-</td><td >微克</td></tr>
+			
+			<tr><td>热量:</td><td id = "sum_n1">-</td></tr>
+			<tr><td>脂肪:</td><td id = "sum_n2">-</td></tr>
+			<tr><td>蛋白质:</td><td id = "sum_n3">-</td></tr>
+			<tr><td>碳水化合物:</td><td id = "sum_n4">-</td></tr>
+			<tr><td>膳食纤维:</td><td id = "sum_n5">-</td></tr>
+			<tr><td>硫胺素:</td><td id = "sum_n6">-</td></tr>
+			<tr><td>钙:</td><td id = "sum_n7">-</td></tr>
+			<tr><td>核黄素:</td><td id = "sum_n8">-</td></tr>
+			<tr><td>镁:</td><td id = "sum_n9">-</td></tr>
+			<tr><td>烟酸:</td><td id = "sum_n10">-</td></tr>
+			<tr><td>铁:</td><td id = "sum_n11">-</td></tr>
+			<tr><td>维生素C:</td><td id = "sum_n12">-</td></tr>
+			<tr><td>锰:</td><td id = "sum_n13">-</td></tr>
+			<tr><td>维生素E:</td><td id = "sum_n14">-</td></tr>
+			<tr><td>锌:</td><td id = "sum_n15">-</td></tr>
+			<tr><td>维生素A:</td><td id = "sum_n16">-</td></tr>
+			<tr><td>胆固醇:</td><td id = "sum_n17">-</td></tr>
+			<tr><td>铜:</td><td id = "sum_n18">-</td></tr>
+			<tr><td>胡罗卜素:</td><td id = "sum_n19">-</td></tr>
+			<tr><td>钾:</td><td id = "sum_n20">-</td></tr>
+			<tr><td>磷:</td><td id = "sum_n21">-</td></tr>
+			<tr><td>视黄醇当量:</td><td id = "sum_n22">-</td></tr>
+			<tr><td>钠:</td><td id = "sum_n23">-</td></tr>
+			<tr><td>硒:</td><td id = "sum_n24">-</td></tr>
 		</table>
-		
 	</div>
 		
 	<script>
@@ -674,14 +121,146 @@
 			tr[i].style.display = "none";
 		  }
 		} 
->>>>>>> 793747bfe9730a4368ffc05fa51c83d1959b9daf
 		}
-	</style>
-</head>
+		}
+	</script>
+	<div id="lefttop">
+	<br>
+	<input type="text" id="search_input" onkeyup="search_box()" placeholder="搜索...">
+	 <button class="button-two" onclick="sum()"><span>结 算</span></button>
+ 
+	<strong><p>食物分类</p></strong>	
+	</div>
+	
+	<div id="left">
+	
+	<table id="my_table_left">
+	
+	<tr><td>小米:  </td><td><input type='number' class="input_style" id='input_num_1'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_1();"></td><td>&nbsp;&nbsp;<button class="btn btn-success btn-lg" onclick="show_food_1()">显示 营养素</button> </td><td><p id="food1_cnt">摄入量：0</p></td></tr>
+	<tr><td>馒头:  </td><td><input type='number' class="input_style" id='input_num_2'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_2();"></td><td>&nbsp;&nbsp;<button onclick="show_food_2()">显示营养素</button> </td><td><p id="food2_cnt">摄入量：0</p></td></tr>
+	<tr><td>面条:  </td><td><input type='number' class="input_style" id='input_num_3'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_3();"></td><td>&nbsp;&nbsp;<button onclick="show_food_3()">显示营养素</button> </td><td><p id="food3_cnt">摄入量：0</p></td></tr>
+	<tr><td>粳米:  </td><td><input type='number' class="input_style" id='input_num_4'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_4();"></td><td>&nbsp;&nbsp;<button onclick="show_food_4()">显示营养素</button> </td><td><p id="food4_cnt">摄入量：0</p></td></tr>
+	<tr><td>玉米:  </td><td><input type='number' class="input_style" id='input_num_5'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_5();"></td><td>&nbsp;&nbsp;<button onclick="show_food_5()">显示营养素</button> </td><td><p id="food5_cnt">摄入量：0</p></td></tr>
+	<tr><td>豆腐:  </td><td><input type='number' class="input_style" id='input_num_6'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_6();"></td><td>&nbsp;&nbsp;<button onclick="show_food_6()">显示营养素</button> </td><td><p id="food6_cnt">摄入量：0</p></td></tr>
+	<tr><td>高粱米:  </td><td><input type='number' class="input_style" id='input_num_7'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_7();"></td><td>&nbsp;&nbsp;<button onclick="show_food_7()">显示营养素</button> </td><td><p id="food7_cnt">摄入量：0</p></td></tr>
+	<tr><td>黄豆:  </td><td><input type='number' class="input_style" id='input_num_8'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_8();"></td><td>&nbsp;&nbsp;<button onclick="show_food_8()">显示营养素</button> </td><td><p id="food8_cnt">摄入量：0</p></td></tr>
+	<tr><td>青豆:  </td><td><input type='number' class="input_style" id='input_num_9'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_9();"></td><td>&nbsp;&nbsp;<button onclick="show_food_9()">显示营养素</button> </td><td><p id="food9_cnt">摄入量：0</p></td></tr>
+	<tr><td>黑豆:  </td><td><input type='number' class="input_style" id='input_num_10'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_10();"></td><td>&nbsp;&nbsp;<button onclick="show_food_10()">显示营养素</button> </td><td><p id="food10_cnt">摄入量：0</p></td></tr>
+	<tr><td>赤小豆:  </td><td><input type='number' class="input_style" id='input_num_11'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_11();"></td><td>&nbsp;&nbsp;<button onclick="show_food_11()">显示营养素</button> </td><td><p id="food11_cnt">摄入量：0</p></td></tr>
+	<tr><td>绿豆:  </td><td><input type='number' class="input_style" id='input_num_12'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_12();"></td><td>&nbsp;&nbsp;<button onclick="show_food_12()">显示营养素</button> </td><td><p id="food12_cnt">摄入量：0</p></td></tr>
+	<tr><td>豌豆:  </td><td><input type='number' class="input_style" id='input_num_13'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_13();"></td><td>&nbsp;&nbsp;<button onclick="show_food_13()">显示营养素</button> </td><td><p id="food13_cnt">摄入量：0</p></td></tr>
+	<tr><td>四季豆:  </td><td><input type='number' class="input_style" id='input_num_14'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_14();"></td><td>&nbsp;&nbsp;<button onclick="show_food_14()">显示营养素</button> </td><td><p id="food14_cnt">摄入量：0</p></td></tr>
+	<tr><td>蚕豆:  </td><td><input type='number' class="input_style" id='input_num_15'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_15();"></td><td>&nbsp;&nbsp;<button onclick="show_food_15()">显示营养素</button> </td><td><p id="food15_cnt">摄入量：0</p></td></tr>
+	<tr><td>黄豆芽:  </td><td><input type='number' class="input_style" id='input_num_16'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_16();"></td><td>&nbsp;&nbsp;<button onclick="show_food_16()">显示营养素</button> </td><td><p id="food16_cnt">摄入量：0</p></td></tr>
+	<tr><td>绿豆芽:  </td><td><input type='number' class="input_style" id='input_num_17'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_17();"></td><td>&nbsp;&nbsp;<button onclick="show_food_17()">显示营养素</button> </td><td><p id="food17_cnt">摄入量：0</p></td></tr>
+	<tr><td>葱:  </td><td><input type='number' class="input_style" id='input_num_18'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_18();"></td><td>&nbsp;&nbsp;<button onclick="show_food_18()">显示营养素</button> </td><td><p id="food18_cnt">摄入量：0</p></td></tr>
+	<tr><td>大蒜:  </td><td><input type='number' class="input_style" id='input_num_19'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_19();"></td><td>&nbsp;&nbsp;<button onclick="show_food_19()">显示营养素</button> </td><td><p id="food19_cnt">摄入量：0</p></td></tr>
+	<tr><td>芋头:  </td><td><input type='number' class="input_style" id='input_num_20'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_20();"></td><td>&nbsp;&nbsp;<button onclick="show_food_20()">显示营养素</button> </td><td><p id="food20_cnt">摄入量：0</p></td></tr>
+	<tr><td>红萝卜:  </td><td><input type='number' class="input_style" id='input_num_21'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_21();"></td><td>&nbsp;&nbsp;<button onclick="show_food_21()">显示营养素</button> </td><td><p id="food21_cnt">摄入量：0</p></td></tr>
+	<tr><td>荸荠:  </td><td><input type='number' class="input_style" id='input_num_22'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_22();"></td><td>&nbsp;&nbsp;<button onclick="show_food_22()">显示营养素</button> </td><td><p id="food22_cnt">摄入量：0</p></td></tr>
+	<tr><td>红薯:  </td><td><input type='number' class="input_style" id='input_num_23'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_23();"></td><td>&nbsp;&nbsp;<button onclick="show_food_23()">显示营养素</button> </td><td><p id="food23_cnt">摄入量：0</p></td></tr>
+	<tr><td>藕:  </td><td><input type='number' class="input_style" id='input_num_24'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_24();"></td><td>&nbsp;&nbsp;<button onclick="show_food_24()">显示营养素</button> </td><td><p id="food24_cnt">摄入量：0</p></td></tr>
+	<tr><td>白萝卜:  </td><td><input type='number' class="input_style" id='input_num_25'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_25();"></td><td>&nbsp;&nbsp;<button onclick="show_food_25()">显示营养素</button> </td><td><p id="food25_cnt">摄入量：0</p></td></tr>
+	<tr><td>土豆:  </td><td><input type='number' class="input_style" id='input_num_26'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_26();"></td><td>&nbsp;&nbsp;<button onclick="show_food_26()">显示营养素</button> </td><td><p id="food26_cnt">摄入量：0</p></td></tr>
+	<tr><td>菠菜:  </td><td><input type='number' class="input_style" id='input_num_27'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_27();"></td><td>&nbsp;&nbsp;<button onclick="show_food_27()">显示营养素</button> </td><td><p id="food27_cnt">摄入量：0</p></td></tr>
+	<tr><td>辣椒:  </td><td><input type='number' class="input_style" id='input_num_28'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_28();"></td><td>&nbsp;&nbsp;<button onclick="show_food_28()">显示营养素</button> </td><td><p id="food28_cnt">摄入量：0</p></td></tr>
+	<tr><td>韭菜:  </td><td><input type='number' class="input_style" id='input_num_29'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_29();"></td><td>&nbsp;&nbsp;<button onclick="show_food_29()">显示营养素</button> </td><td><p id="food29_cnt">摄入量：0</p></td></tr>
+	<tr><td>苋菜:  </td><td><input type='number' class="input_style" id='input_num_30'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_30();"></td><td>&nbsp;&nbsp;<button onclick="show_food_30()">显示营养素</button> </td><td><p id="food30_cnt">摄入量：0</p></td></tr>
+	<tr><td>白菜:  </td><td><input type='number' class="input_style" id='input_num_31'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_31();"></td><td>&nbsp;&nbsp;<button onclick="show_food_31()">显示营养素</button> </td><td><p id="food31_cnt">摄入量：0</p></td></tr>
+	<tr><td>香菜:  </td><td><input type='number' class="input_style" id='input_num_32'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_32();"></td><td>&nbsp;&nbsp;<button onclick="show_food_32()">显示营养素</button> </td><td><p id="food32_cnt">摄入量：0</p></td></tr>
+	<tr><td>芹菜茎:  </td><td><input type='number' class="input_style" id='input_num_33'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_33();"></td><td>&nbsp;&nbsp;<button onclick="show_food_33()">显示营养素</button> </td><td><p id="food33_cnt">摄入量：0</p></td></tr>
+	<tr><td>蘑菇:  </td><td><input type='number' class="input_style" id='input_num_34'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_34();"></td><td>&nbsp;&nbsp;<button onclick="show_food_34()">显示营养素</button> </td><td><p id="food34_cnt">摄入量：0</p></td></tr>
+	<tr><td>香菇:  </td><td><input type='number' class="input_style" id='input_num_35'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_35();"></td><td>&nbsp;&nbsp;<button onclick="show_food_35()">显示营养素</button> </td><td><p id="food35_cnt">摄入量：0</p></td></tr>
+	<tr><td>木耳:  </td><td><input type='number' class="input_style" id='input_num_36'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_36();"></td><td>&nbsp;&nbsp;<button onclick="show_food_36()">显示营养素</button> </td><td><p id="food36_cnt">摄入量：0</p></td></tr>
+	<tr><td>海带:  </td><td><input type='number' class="input_style" id='input_num_37'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_37();"></td><td>&nbsp;&nbsp;<button onclick="show_food_37()">显示营养素</button> </td><td><p id="food37_cnt">摄入量：0</p></td></tr>
+	<tr><td>紫菜:  </td><td><input type='number' class="input_style" id='input_num_38'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_38();"></td><td>&nbsp;&nbsp;<button onclick="show_food_38()">显示营养素</button> </td><td><p id="food38_cnt">摄入量：0</p></td></tr>
+	<tr><td>南瓜:  </td><td><input type='number' class="input_style" id='input_num_39'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_39();"></td><td>&nbsp;&nbsp;<button onclick="show_food_39()">显示营养素</button> </td><td><p id="food39_cnt">摄入量：0</p></td></tr>
+	<tr><td>西葫芦:  </td><td><input type='number' class="input_style" id='input_num_40'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_40();"></td><td>&nbsp;&nbsp;<button onclick="show_food_40()">显示营养素</button> </td><td><p id="food40_cnt">摄入量：0</p></td></tr>
+	<tr><td>丝瓜:  </td><td><input type='number' class="input_style" id='input_num_41'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_41();"></td><td>&nbsp;&nbsp;<button onclick="show_food_41()">显示营养素</button> </td><td><p id="food41_cnt">摄入量：0</p></td></tr>
+	<tr><td>茄子:  </td><td><input type='number' class="input_style" id='input_num_42'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_42();"></td><td>&nbsp;&nbsp;<button onclick="show_food_42()">显示营养素</button> </td><td><p id="food42_cnt">摄入量：0</p></td></tr>
+	<tr><td>冬瓜:  </td><td><input type='number' class="input_style" id='input_num_43'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_43();"></td><td>&nbsp;&nbsp;<button onclick="show_food_43()">显示营养素</button> </td><td><p id="food43_cnt">摄入量：0</p></td></tr>
+	<tr><td>西瓜:  </td><td><input type='number' class="input_style" id='input_num_44'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_44();"></td><td>&nbsp;&nbsp;<button onclick="show_food_44()">显示营养素</button> </td><td><p id="food44_cnt">摄入量：0</p></td></tr>
+	<tr><td>甜瓜:  </td><td><input type='number' class="input_style" id='input_num_45'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_45();"></td><td>&nbsp;&nbsp;<button onclick="show_food_45()">显示营养素</button> </td><td><p id="food45_cnt">摄入量：0</p></td></tr>
+	<tr><td>菜瓜:  </td><td><input type='number' class="input_style" id='input_num_46'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_46();"></td><td>&nbsp;&nbsp;<button onclick="show_food_46()">显示营养素</button> </td><td><p id="food46_cnt">摄入量：0</p></td></tr>
+	<tr><td>黄瓜:  </td><td><input type='number' class="input_style" id='input_num_47'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_47();"></td><td>&nbsp;&nbsp;<button onclick="show_food_47()">显示营养素</button> </td><td><p id="food47_cnt">摄入量：0</p></td></tr>
+	<tr><td>西红柿:  </td><td><input type='number' class="input_style" id='input_num_48'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_48();"></td><td>&nbsp;&nbsp;<button onclick="show_food_48()">显示营养素</button> </td><td><p id="food48_cnt">摄入量：0</p></td></tr>
+	<tr><td>柿:  </td><td><input type='number' class="input_style" id='input_num_49'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_49();"></td><td>&nbsp;&nbsp;<button onclick="show_food_49()">显示营养素</button> </td><td><p id="food49_cnt">摄入量：0</p></td></tr>
+	<tr><td>枣:  </td><td><input type='number' class="input_style" id='input_num_50'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_50();"></td><td>&nbsp;&nbsp;<button onclick="show_food_50()">显示营养素</button> </td><td><p id="food50_cnt">摄入量：0</p></td></tr>
+	<tr><td>苹果:  </td><td><input type='number' class="input_style" id='input_num_51'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_51();"></td><td>&nbsp;&nbsp;<button onclick="show_food_51()">显示营养素</button> </td><td><p id="food51_cnt">摄入量：0</p></td></tr>
+	<tr><td>香蕉:  </td><td><input type='number' class="input_style" id='input_num_52'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_52();"></td><td>&nbsp;&nbsp;<button onclick="show_food_52()">显示营养素</button> </td><td><p id="food52_cnt">摄入量：0</p></td></tr>
+	<tr><td>梨:  </td><td><input type='number' class="input_style" id='input_num_53'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_53();"></td><td>&nbsp;&nbsp;<button onclick="show_food_53()">显示营养素</button> </td><td><p id="food53_cnt">摄入量：0</p></td></tr>
+	<tr><td>杏:  </td><td><input type='number' class="input_style" id='input_num_54'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_54();"></td><td>&nbsp;&nbsp;<button onclick="show_food_54()">显示营养素</button> </td><td><p id="food54_cnt">摄入量：0</p></td></tr>
+	<tr><td>李:  </td><td><input type='number' class="input_style" id='input_num_55'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_55();"></td><td>&nbsp;&nbsp;<button onclick="show_food_55()">显示营养素</button> </td><td><p id="food55_cnt">摄入量：0</p></td></tr>
+	<tr><td>桃:  </td><td><input type='number' class="input_style" id='input_num_56'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_56();"></td><td>&nbsp;&nbsp;<button onclick="show_food_56()">显示营养素</button> </td><td><p id="food56_cnt">摄入量：0</p></td></tr>
+	<tr><td>樱桃:  </td><td><input type='number' class="input_style" id='input_num_57'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_57();"></td><td>&nbsp;&nbsp;<button onclick="show_food_57()">显示营养素</button> </td><td><p id="food57_cnt">摄入量：0</p></td></tr>
+	<tr><td>葡萄:  </td><td><input type='number' class="input_style" id='input_num_58'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_58();"></td><td>&nbsp;&nbsp;<button onclick="show_food_58()">显示营养素</button> </td><td><p id="food58_cnt">摄入量：0</p></td></tr>
+	<tr><td>花生仁:  </td><td><input type='number' class="input_style" id='input_num_59'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_59();"></td><td>&nbsp;&nbsp;<button onclick="show_food_59()">显示营养素</button> </td><td><p id="food59_cnt">摄入量：0</p></td></tr>
+	<tr><td>栗子:  </td><td><input type='number' class="input_style" id='input_num_60'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_60();"></td><td>&nbsp;&nbsp;<button onclick="show_food_60()">显示营养素</button> </td><td><p id="food60_cnt">摄入量：0</p></td></tr>
+	<tr><td>杏仁:  </td><td><input type='number' class="input_style" id='input_num_61'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_61();"></td><td>&nbsp;&nbsp;<button onclick="show_food_61()">显示营养素</button> </td><td><p id="food61_cnt">摄入量：0</p></td></tr>
+	<tr><td>菱角:  </td><td><input type='number' class="input_style" id='input_num_62'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_62();"></td><td>&nbsp;&nbsp;<button onclick="show_food_62()">显示营养素</button> </td><td><p id="food62_cnt">摄入量：0</p></td></tr>
+	<tr><td>牛肉:  </td><td><input type='number' class="input_style" id='input_num_63'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_63();"></td><td>&nbsp;&nbsp;<button onclick="show_food_63()">显示营养素</button> </td><td><p id="food63_cnt">摄入量：0</p></td></tr>
+	<tr><td>牛肝:  </td><td><input type='number' class="input_style" id='input_num_64'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_64();"></td><td>&nbsp;&nbsp;<button onclick="show_food_64()">显示营养素</button> </td><td><p id="food64_cnt">摄入量：0</p></td></tr>
+	<tr><td>羊肉:  </td><td><input type='number' class="input_style" id='input_num_65'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_65();"></td><td>&nbsp;&nbsp;<button onclick="show_food_65()">显示营养素</button> </td><td><p id="food65_cnt">摄入量：0</p></td></tr>
+	<tr><td>羊肝:  </td><td><input type='number' class="input_style" id='input_num_66'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_66();"></td><td>&nbsp;&nbsp;<button onclick="show_food_66()">显示营养素</button> </td><td><p id="food66_cnt">摄入量：0</p></td></tr>
+	<tr><td>猪肉:  </td><td><input type='number' class="input_style" id='input_num_67'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_67();"></td><td>&nbsp;&nbsp;<button onclick="show_food_67()">显示营养素</button> </td><td><p id="food67_cnt">摄入量：0</p></td></tr>
+	<tr><td>猪肝:  </td><td><input type='number' class="input_style" id='input_num_68'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_68();"></td><td>&nbsp;&nbsp;<button onclick="show_food_68()">显示营养素</button> </td><td><p id="food68_cnt">摄入量：0</p></td></tr>
+	<tr><td>牛奶:  </td><td><input type='number' class="input_style" id='input_num_69'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_69();"></td><td>&nbsp;&nbsp;<button onclick="show_food_69()">显示营养素</button> </td><td><p id="food69_cnt">摄入量：0</p></td></tr>
+	<tr><td>鸡肉:  </td><td><input type='number' class="input_style" id='input_num_70'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_70();"></td><td>&nbsp;&nbsp;<button onclick="show_food_70()">显示营养素</button> </td><td><p id="food70_cnt">摄入量：0</p></td></tr>
+	<tr><td>鸡蛋:  </td><td><input type='number' class="input_style" id='input_num_71'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_71();"></td><td>&nbsp;&nbsp;<button onclick="show_food_71()">显示营养素</button> </td><td><p id="food71_cnt">摄入量：0</p></td></tr>
+	<tr><td>鸭蛋:  </td><td><input type='number' class="input_style" id='input_num_72'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_72();"></td><td>&nbsp;&nbsp;<button onclick="show_food_72()">显示营养素</button> </td><td><p id="food72_cnt">摄入量：0</p></td></tr>
+	<tr><td>咸鸭蛋:  </td><td><input type='number' class="input_style" id='input_num_73'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_73();"></td><td>&nbsp;&nbsp;<button onclick="show_food_73()">显示营养素</button> </td><td><p id="food73_cnt">摄入量：0</p></td></tr>
+	<tr><td>青蛙:  </td><td><input type='number' class="input_style" id='input_num_74'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_74();"></td><td>&nbsp;&nbsp;<button onclick="show_food_74()">显示营养素</button> </td><td><p id="food74_cnt">摄入量：0</p></td></tr>
+	<tr><td>甲鱼:  </td><td><input type='number' class="input_style" id='input_num_75'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_75();"></td><td>&nbsp;&nbsp;<button onclick="show_food_75()">显示营养素</button> </td><td><p id="food75_cnt">摄入量：0</p></td></tr>
+	<tr><td>虾:  </td><td><input type='number' class="input_style" id='input_num_76'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_76();"></td><td>&nbsp;&nbsp;<button onclick="show_food_76()">显示营养素</button> </td><td><p id="food76_cnt">摄入量：0</p></td></tr>
+	<tr><td>田螺:  </td><td><input type='number' class="input_style" id='input_num_77'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_77();"></td><td>&nbsp;&nbsp;<button onclick="show_food_77()">显示营养素</button> </td><td><p id="food77_cnt">摄入量：0</p></td></tr>
+	<tr><td>蛤蜊:  </td><td><input type='number' class="input_style" id='input_num_78'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_78();"></td><td>&nbsp;&nbsp;<button onclick="show_food_78()">显示营养素</button> </td><td><p id="food78_cnt">摄入量：0</p></td></tr>
+	<tr><td>鲫鱼:  </td><td><input type='number' class="input_style" id='input_num_79'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_79();"></td><td>&nbsp;&nbsp;<button onclick="show_food_79()">显示营养素</button> </td><td><p id="food79_cnt">摄入量：0</p></td></tr>
+	<tr><td>鲤鱼:  </td><td><input type='number' class="input_style" id='input_num_80'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_80();"></td><td>&nbsp;&nbsp;<button onclick="show_food_80()">显示营养素</button> </td><td><p id="food80_cnt">摄入量：0</p></td></tr>
+	<tr><td>鳝鱼:  </td><td><input type='number' class="input_style" id='input_num_81'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_81();"></td><td>&nbsp;&nbsp;<button onclick="show_food_81()">显示营养素</button> </td><td><p id="food81_cnt">摄入量：0</p></td></tr>
+	<tr><td>带鱼:  </td><td><input type='number' class="input_style" id='input_num_82'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_82();"></td><td>&nbsp;&nbsp;<button onclick="show_food_82()">显示营养素</button> </td><td><p id="food82_cnt">摄入量：0</p></td></tr>
+	<tr><td>黄花鱼:  </td><td><input type='number' class="input_style" id='input_num_83'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_83();"></td><td>&nbsp;&nbsp;<button onclick="show_food_83()">显示营养素</button> </td><td><p id="food83_cnt">摄入量：0</p></td></tr>
+	<tr><td>猪油:  </td><td><input type='number' class="input_style" id='input_num_84'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_84();"></td><td>&nbsp;&nbsp;<button onclick="show_food_84()">显示营养素</button> </td><td><p id="food84_cnt">摄入量：0</p></td></tr>
+	<tr><td>芝麻油:  </td><td><input type='number' class="input_style" id='input_num_85'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_85();"></td><td>&nbsp;&nbsp;<button onclick="show_food_85()">显示营养素</button> </td><td><p id="food85_cnt">摄入量：0</p></td></tr>
+	<tr><td>花生油:  </td><td><input type='number' class="input_style" id='input_num_86'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_86();"></td><td>&nbsp;&nbsp;<button onclick="show_food_86()">显示营养素</button> </td><td><p id="food86_cnt">摄入量：0</p></td></tr>
+	<tr><td>芝麻酱:  </td><td><input type='number' class="input_style" id='input_num_87'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_87();"></td><td>&nbsp;&nbsp;<button onclick="show_food_87()">显示营养素</button> </td><td><p id="food87_cnt">摄入量：0</p></td></tr>
+	<tr><td>豆油:  </td><td><input type='number' class="input_style" id='input_num_88'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_88();"></td><td>&nbsp;&nbsp;<button onclick="show_food_88()">显示营养素</button> </td><td><p id="food88_cnt">摄入量：0</p></td></tr>
+	<tr><td>挂面:  </td><td><input type='number' class="input_style" id='input_num_89'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_89();"></td><td>&nbsp;&nbsp;<button onclick="show_food_89()">显示营养素</button> </td><td><p id="food89_cnt">摄入量：0</p></td></tr>
+	<tr><td>豇豆:  </td><td><input type='number' class="input_style" id='input_num_90'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_90();"></td><td>&nbsp;&nbsp;<button onclick="show_food_90()">显示营养素</button> </td><td><p id="food90_cnt">摄入量：0</p></td></tr>
+	<tr><td>豆角:  </td><td><input type='number' class="input_style" id='input_num_91'> g &nbsp;</td><td><input type="button" value="确认" onclick="input_ensure_food_91();"></td><td>&nbsp;&nbsp;<button onclick="show_food_91()">显示营养素</button> </td><td><p id="food91_cnt">摄入量：0</p></td></tr>
 
-<body>
-	<center><button class="button">Zoey Ying</button></center>
+	</table>
+	
+	</div>
+	
+	<script>
+		var thIndex = 0,
+		curThIndex = null;
+
+		$(function(){
+		  $('table thead tr th').click(function(){
+			thIndex = $(this).index();
+			if(thIndex != curThIndex){
+			  curThIndex = thIndex;
+			  sorting = [];
+			  tbodyHtml = null;
+			  $('table tbody tr').each(function(){
+				sorting.push($(this).children('td').eq(curThIndex).html() + ', ' + $(this).index());
+			  });
+			  
+			  sorting = sorting.sort();
+			  sortIt();
+			}
+		  });
+		})
+
+		function sortIt(){
+		  for(var sortingIndex = 0; sortingIndex < sorting.length; sortingIndex++){
+			rowId = parseInt(sorting[sortingIndex].split(', ')[1]);
+			tbodyHtml = tbodyHtml + $('table tbody tr').eq(rowId)[0].outerHTML;
+		  }
+		  $('table tbody').html(tbodyHtml);
+		}
+	</script>
 </body>
 
 </html>
-=

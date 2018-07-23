@@ -1,0 +1,59 @@
+						#lefttop
+						{
+						        height:100px;  
+                                margin-right:60%;  
+                                padding-left:10px;
+								
+								background-color:beige;  
+						}
+                        #left  
+                        {  
+                                height:800px;  
+                                margin-right:60%;  
+                                padding-left:10px;
+								
+								background-color:beige;  
+								overflow-y:auto;
+								
+                        }  
+                        #center_are  
+                        {  	
+								margin-top:100px; 
+								margin-left:45%; 
+								width:25%;                             
+                                height:800px; 
+								
+                                position: absolute;
+								float:right;     
+								background-color:gainsboro;  
+								overflow-y:auto;
+                        } 
+						#center_top
+						{
+						        height:100px;  
+								width:24.3%;
+								position: absolute;
+								margin-left:45%; 								
+                                background-color:gainsboro;  
+								padding-left:10px;
+						
+						}						
+                        #right  
+                        { 	 
+								margin-top:100px;     
+                                height:800px;  
+                                width:25%;  
+                                float:right;  
+                                background-color:lightcyan;  
+								overflow-y:auto;
+                        } 
+						#right_top
+						{
+						        height:100px;  
+								width:24%;
+								position: absolute;
+								margin-left:74.2%;
+                                background-color:lightcyan;  
+								padding-right:10px;
+						
+						}						
