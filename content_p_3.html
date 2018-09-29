@@ -3,10 +3,11 @@
 <head>
 	<link href="style_content.css" rel="stylesheet" type="text/css">
 	<link href="style_code.css" rel="stylesheet" type="text/css">
+	<link href="theme/prism.css" rel="stylesheet" />
 </head>
 
 <body>
-
+<script src="theme/prism.js"></script>
 <section class="hero">
   <div>
     <h2>Python 3 利用 Dlib 实现人脸检测和 剪切</h2>
@@ -40,7 +41,7 @@
 <p>　　Python:　　3.6.3</p>
 <p>　　Dlib:　　　 19.7</p>
 <p>　　OpenCv, NumPy</p>
-<pre class='code code-html'><label>Python</label><code>
+<pre><code class="language-python">
 1 import dlib         # 人脸识别的库dlib
 2 import numpy as np  # 数据处理的库numpy
 3 import cv2          # 图像处理的库OpenCv
@@ -54,7 +55,7 @@
 <p>可以得到人脸外接矩形的坐标，用来之后进行裁剪；</p>
 <p>具体 Dlib 的使用，请参考我另一篇博客；</p>
 <p>( link:&nbsp;<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/AdaminXie/p/7905888.html">Python 3 利用 Dlib 19.7 进行人脸检测</a>）；</p>
-<pre class='code code-html'><label>Python</label><code>
+<pre><code class="language-python">
  # Dlib 检测器
  detector = dlib.get_frontal_face_detector()
   
@@ -84,16 +85,17 @@
 <p>&nbsp;</p>
 <p style="margin-left: 30px;">我取的生成空白图像的尺寸：<strong>height_max（最大高度）和width_sum（宽度之和）</strong>，然后根据尺寸大小来新建空白图像：</p>
 <div class="cnblogs_code" style="margin-left: 30px;">
-<pre><span style="color: #008080;">1</span> img_blank = np.zeros((height_max, width_sum, 3), np.uint8)</pre>
+<pre><code class="language-python">
+img_blank = np.zeros((height_max, width_sum, 3), np.uint8)
+</code></pre>
 </div>
 <center>
 <p><img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180129172805296-899059000.png" alt="" width="712" height="212" /></p>
 <p><strong>图 4 图像尺寸 height_max 和 width_sum</strong></p>
 </center>
-<p>&nbsp;</p>
 <p>　　2.2.2 图像填充</p>
 <p><strong>　　第二次遍历：</strong>多根据之前得到的图像尺寸新建空白图像，然后开始用人脸矩形填充图像，每次 width 方向从 blank_start 位置开始，每次填完一张之后记得更新起始位置：（blank_start += width）：</p>
-<pre class='code code-html'><label>Python</label><code>
+<pre><code class="language-python">
 1 for i in range(height):
 2     for j in range(width):
 3         img_blank[i][blank_start + j] = img[d.top() + i][d.left() + j]
@@ -106,7 +108,7 @@
 <p>&nbsp;</p>
 <p><span style="font-size: 18px;"><strong>3. 源码</strong></span></p>
 <p><span style="font-size: 18px;"><strong>3.1&nbsp;crop_faces_show.py</strong></span></p>
-<pre class='code code-html'><label>Python</label><code>
+<pre><code class="language-python">
 # created at 2018-01-22
 # updated at 2018-09-29
 
@@ -195,7 +197,7 @@ cv2.waitKey(0
 <p>　　如果你想将识别出来的人脸保存成单个的图像，方便之后处理用，只需将上述代码进行略微修改；</p>
 <p>　　只需一次遍历，根据每次检测到的人脸尺寸，新建空白图像后写入，然后利用 cv2.imwrite 写入到本地：</p>
 <p><strong>　　crop_faces_save.py:</strong></p>
-<pre class='code code-html'><label>Python</label><code>
+<pre><code class="language-python">
 # created at 2018-01-22
 # updated at 2018-09-29
 
