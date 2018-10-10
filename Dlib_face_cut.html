@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="style_content.css" rel="stylesheet" type="text/css">
+	<link href="theme/prism.css" rel="stylesheet" />
+</head>
+<body>
+<script src="theme/prism.js"></script>
+<section class="hero">
+  <div>
+    <h2>Python 3 利用 Dlib 实现人脸检测和剪切</h2>
+    <em><b class="meta"><i></i> Author : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; coneypo</b><br>
+    <b class="meta"><i>Created at :&nbsp;&nbsp;&nbsp;Jan 24, 2018</i> </b><br>
+	<b class="meta"><i>Updated at :&nbsp;&nbsp;Sep 27, 2018</i> </b>
+	</em>
+  </div>
+</section>
+
+<main>
+
+<br>
+<p><strong><span style="font-size: 18px;">0. 引言</span><br /></strong></p>
+<p>利用 Python 开发，借助 Dlib 库进行人脸检测 / face detection；</p>
+<p><strong>1.</strong>&nbsp;<strong><a id="840b1e4adc2ca0d93ef60f54c7e2b1cc-ca73c1b5eb805b25f59a450e3718eec671866d5c" class="js-navigation-open" title="crop_faces_show.py" href="https://github.com/coneypo/Dlib_face_cut/blob/master/crop_faces_show.py">crop_faces_show.py</a>&nbsp;:</strong><span style="text-decoration: underline;"><strong><span style="font-size: 16px;"><br /></span></strong></span></p>
+<p>将检测到的人脸剪切下来，依次排序平铺显示在新的图像上；</p>
+<p>实现的效果如图1所示，将图1原图中的6张人脸检测出来，然后剪切下来，在图像窗口中依次输出显示人脸；</p>
+<p><strong>2.&nbsp;<strong><a id="0b4249af0ff9241a5a3159de48a7142d-35a784cc8f0aaa493420209ab9774a8674cd1cef" class="js-navigation-open" title="crop_faces_save.py" href="https://github.com/coneypo/Dlib_face_cut/blob/master/crop_faces_save.py">crop_faces_save.py</a>&nbsp;</strong>:</strong></p>
+<p>将检测到的人脸存储为单个人脸图像；</p>
+<center>
+<p><img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180124074534912-1357533271.png" alt="" width="698" height="634" /></p>
+<p><strong>图 1 原图和&nbsp;crop_faces_show.py&nbsp;处理后得到的平铺人脸图像窗口</strong></p>
+</center>
+<br>
+<center>
+<p><strong><img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180125140506115-2142846280.png" alt="" /></strong></p>
+<p><strong>图 2 crop_faces_save.py<strong><strong><strong>&nbsp;</strong></strong></strong>处理后得到的多个单张人脸图像文件</strong></p></center>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>1. 开发环境</strong></span></p>
+<p>　　Python:　　3.6.3</p>
+<p>　　Dlib:　　　 19.7</p>
+<p>　　OpenCv, NumPy</p>
+<pre><code class="language-python">import dlib         # 人脸识别的库dlib
+import numpy as np  # 数据处理的库numpy
+import cv2          # 图像处理的库OpenCv
+</code></pre>
+
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>2. 设计流程</strong></span></p>
+<p>工作内容主要以下两大块<strong>：Dlib 人脸检测 和 处理检测到的人脸图像</strong></p>
+<p><strong>2.1 Dlib 人脸检测</strong></p>
+<p>利用已经训练好的 Dlib 正向人脸检测器 <b>detector = dlib.get_frontal_face_detector()</b> 进行人脸检测；</p>
+<p>可以得到人脸外接矩形的坐标，用来之后进行裁剪；</p>
+<p>具体 Dlib 的使用，请参考我另一篇博客；</p>
+<p>( link:&nbsp;<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/AdaminXie/p/7905888.html">Python 3 利用 Dlib 19.7 进行人脸检测</a>）；</p>
+<pre><code class="language-python"># Dlib 检测器
+ detector = dlib.get_frontal_face_detector()
+  
+ # 读取图像
+ path = "/***/image_path/"
+ img = cv2.imread(path+"test_faces.jpg")
+ # print("img/shape:", img.shape)
+  
+ # Dlib 检测
+ faces = detector(img, 1)
+ 
+ print("人脸数：", len(faces))
+</code></pre>
+<br>
+<p><strong>2.2&nbsp;绘制新图像</strong></p>
+<p>如果你想让人脸并排显示的话，稍微麻烦一点，需要遍历两次 faces（for k, d in enumerate (faces)）:</p>
+<p>&nbsp;<strong>第一次遍历：</strong>记录下我们需要生成的图像窗口的大小，因为需要将多张照片显示在一张图像上，所以需要知道每张人脸照片的大小；</p>
+<p>&nbsp;<strong>第二次遍历：</strong>根据之前得到的图像尺寸新建空白图像，然后开始用人脸矩形填充图像；</p>
+<p>&nbsp;</p>
+<p>2.2.1 确定空白图像尺寸</p>
+<p>（这部分首先要根据检测到的人脸数和人脸大小，来确定绘制图像所需要的尺寸）　　</p>
+<p><strong>第一次遍历：</strong></p>
+<p>&nbsp;&nbsp;多张人脸要输出到一行，所以先进行一次人脸的遍历，记下每张人脸的大小，</p>
+<p>&nbsp;&nbsp;记每张人脸的尺寸为&nbsp;<span style="font-size: 16px;"><strong>高度 height&nbsp; *宽度 width</strong></span>（高度和宽度说明见图3）：</p>
+<center>
+<p><img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180129153820484-2828104.png" alt="" width="683" height="429" /></p>
+<p><strong>图 3 图像尺寸说明</strong></p>
+</center>
+<p>&nbsp;</p>
+<p style="margin-left: 30px;">我取的生成空白图像的尺寸：<strong>height_max（最大高度）和width_sum（宽度之和）</strong>，然后根据尺寸大小来新建空白图像：</p>
+<div class="cnblogs_code" style="margin-left: 30px;">
+<pre><code class="language-python">img_blank = np.zeros((height_max, width_sum, 3), np.uint8)</code></pre>
+</div>
+<center>
+<p><img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180129172805296-899059000.png" alt="" width="712" height="212" /></p>
+<p><strong>图 4 图像尺寸 height_max 和 width_sum</strong></p>
+</center>
+<p>2.2.2 图像填充</p>
+<p><strong>第二次遍历：</strong></p>
+<p>&nbsp;&nbsp; 根据之前得到的图像尺寸，新建空白图像，然后开始用识别出来的人脸矩形填充空白图像；</p>
+<p>&nbsp;&nbsp; 每次 width 方向从 blank_start 位置开始，每次填完一张之后记得更新起始位置：（blank_start += width）：</p>
+<pre><code class="language-python">for i in range(height):
+     for j in range(width):
+         img_blank[i][blank_start + j] = img[d.top() + i][d.left() + j]
+</code></pre>
+<p style="margin-left: 30px;">　　<strong>　　</strong></p>
+<p><strong>　　如果想访问图像的某点像素，可以利用 img[height][width]：</strong></p>
+<p><strong>　　　　存储像素其实是一个三维数组，先高度 height，然后宽度 width;</strong></p>
+<p><strong>　　　　返回的是一个颜色数组（<span style="color: #00ffff;">0-255</span>，<strong><span style="color: #00ff00;">0-255</span>，</strong><span style="color: #ff0000;"><strong>0-255</strong></span>），按照（<span style="color: #00ffff;">B</span>, <span style="color: #00ff00;">G</span>, <span style="color: #ff0000;">R</span>）的顺序；</strong></p>
+<p><strong>　　　　比如&nbsp;<span style="background-color: #00ffff;">蓝色<span style="background-color: #ffffff;">&nbsp;</span></span>就是（255，0，0），<span style="background-color: #ff0000;">红色<span style="background-color: #ffffff;">&nbsp;</span></span>是（0，0，255）;</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong>3. 源码</strong></span></p>
+<p><span style="font-size: 18px;"><strong>3.1&nbsp;crop_faces_show.py</strong></span></p>
+<pre><code class="language-python"># created at 2018-01-22
+# updated at 2018-09-29
+
+# Author:   coneypo
+# Blog:     http://www.cnblogs.com/AdaminXie
+# GitHub:   https://github.com/coneypo/Dlib_face_cut
+
+import dlib         # 人脸识别的库dlib
+import numpy as np  # 数据处理的库numpy
+import cv2          # 图像处理的库OpenCv
+
+# Dlib 检测器
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
+
+# 读取图像
+path = "faces_for_test/"
+img = cv2.imread(path+"test_faces_1.jpg")
+
+# Dlib 检测
+dets = detector(img, 1)
+
+print("人脸数：", len(dets), "\n")
+
+# 记录人脸矩阵大小
+height_max = 0
+width_sum = 0
+
+# 计算要生成的图像 img_blank 大小
+for k, d in enumerate(dets):
+
+    # 计算矩形大小
+    # (x,y), (宽度width, 高度height)
+    pos_start = tuple([d.left(), d.top()])
+    pos_end = tuple([d.right(), d.bottom()])
+
+    # 计算矩形框大小
+    height = d.bottom()-d.top()
+    width = d.right()-d.left()
+
+    # 处理宽度
+    width_sum += width
+
+    # 处理高度
+    if height > height_max:
+        height_max = height
+    else:
+        height_max = height_max
+
+# 绘制用来显示人脸的图像的大小
+print("窗口大小："
+      , '\n', "高度 / height:", height_max
+      , '\n', "宽度 / width: ", width_sum)
+
+# 生成用来显示的图像
+img_blank = np.zeros((height_max, width_sum, 3), np.uint8)
+
+# 记录每次开始写入人脸像素的宽度位置
+blank_start = 0
+
+# 将人脸填充到img_blank
+for k, d in enumerate(dets):
+
+    height = d.bottom()-d.top()
+    width = d.right()-d.left()
+
+    # 填充
+    for i in range(height):
+        for j in range(width):
+                img_blank[i][blank_start+j] = img[d.top()+i][d.left()+j]
+    # 调整图像
+    blank_start += width
+
+cv2.namedWindow("img_faces")#, 2)
+cv2.imshow("img_faces", img_blank)
+cv2.waitKey(0
+</code></pre>
+
+<p><strong>结果：</strong></p>
+<center>
+<p>&nbsp;<img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180124084309194-88289299.png" alt="" width="724" height="727" /></p>
+<p><strong>图 5 原图和处理后得到的图像窗口</strong></p>
+</center>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong><strong>3.2 crop_faces_save.py</strong></strong></span></p>
+<p>　　如果你想将识别出来的人脸保存成单个的图像，方便之后处理用，只需将上述代码进行略微修改；</p>
+<p>　　只需一次遍历，根据每次检测到的人脸尺寸，新建空白图像后写入，然后利用 cv2.imwrite 写入到本地：</p>
+<p><strong>　　crop_faces_save.py:</strong></p>
+<pre><code class="language-python"># created at 2018-01-22
+# updated at 2018-09-29
+
+# Author:   coneypo
+# Blog:     http://www.cnblogs.com/AdaminXie
+# GitHub:   https://github.com/coneypo/Dlib_face_cut
+
+import dlib         # 人脸识别的库dlib
+import numpy as np  # 数据处理的库numpy
+import cv2          # 图像处理的库OpenCv
+import os
+
+# 读取图像的路径
+path_read = "faces_for_test/"
+img = cv2.imread(path_read+"test_faces_3.jpg")
+
+# 用来存储生成的单张人脸的路径
+path_save = "faces_separated/"
+
+
+# Delete old images
+def clear_images():
+    imgs = os.listdir(path_save)
+
+    for img in imgs:
+        os.remove(path_save + img)
+
+    print("clean finish", '\n')
+
+
+clear_images()
+
+
+# Dlib 预测器
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
+
+
+# Dlib 检测
+faces = detector(img, 1)
+
+print("人脸数：", len(faces), '\n')
+
+for k, d in enumerate(faces):
+
+    # 计算矩形大小
+    # (x,y), (宽度width, 高度height)
+    pos_start = tuple([d.left(), d.top()])
+    pos_end = tuple([d.right(), d.bottom()])
+
+    # 计算矩形框大小
+    height = d.bottom()-d.top()
+    width = d.right()-d.left()
+
+    # 根据人脸大小生成空的图像
+    img_blank = np.zeros((height, width, 3), np.uint8)
+
+    for i in range(height):
+        for j in range(width):
+                img_blank[i][j] = img[d.top()+i][d.left()+j]
+
+    # cv2.imshow("face_"+str(k+1), img_blank)
+
+    # 存在本地
+    print("Save to:", path_save+"img_face_"+str(k+1)+".jpg")
+    cv2.imwrite(path_save+"img_face_"+str(k+1)+".jpg", img_blank)
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<center>
+<p>　　<img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180124211419694-701586329.png" alt="" /></p>
+<p><strong>图 6 生成的单个人脸图像文件</strong></p>
+</center>
+<p>&nbsp;</p>
+<p><strong></strong> <strong> GitHub: &nbsp;<a title="Dlib_face_cut" href="https://github.com/coneypo/Dlib_face_cut" target="_blank">https://github.com/coneypo/Dlib_face_cut</a></strong></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Mail : &nbsp;&nbsp;&nbsp;&nbsp; <a href="mailto:coneypo@foxmail.com">coneypo@foxmail.com</a></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+
+</main>
+</body>
+</html>
+</html>

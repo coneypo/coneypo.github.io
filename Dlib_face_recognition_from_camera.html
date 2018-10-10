@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="style_content.css" rel="stylesheet" type="text/css">
+	<link href="theme/prism.css" rel="stylesheet" />
+</head>
+<body>
+<script src="theme/prism.js"></script>
+<section class="hero">
+  <div>
+    <h2>Python 3 利用 Dlib 实现摄像头实时人脸识别</h2>
+    <em><b class="meta"><i></i> Author : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; coneypo</b><br>
+    <b class="meta"><i>Created at :&nbsp;&nbsp;&nbsp;May 11, 2018</i> </b><br>
+	<b class="meta"><i>Updated at :&nbsp;&nbsp;Oct 9, 2018</i> </b>
+	</em>
+  </div>
+</section>
+
+<main>
+<br>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span><span style="font-size: 18px; font-family: 'Microsoft YaHei';"><strong>0. 引言</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　利用 Python 开发，借助 Dlib 库捕获摄像头中的人脸，提取人脸特征；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　通过计算特征值之间的欧氏距离，来和预存的人脸特征进行对比，判断是否匹配，达到人脸识别的目的；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　可以从摄像头中抠取人脸图片存储到本地，然后提取构建预设人脸特征；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　根据抠取的 / 已有的同一个人多张人脸图片提取 128D 特征值，然后计算该人的 128D 特征均值；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　然后和摄像头中实时获取到的人脸提取出的特征值，计算欧氏距离，判定是否为同一张人脸；　　</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　<strong>人脸识别 / Face Recognition&nbsp;</strong>的说明：</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　<span style="font-size: 15px;">Wikipedia 上关于<strong>人脸识别系统 / Face Recognition System</strong> 的描述：</span></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　　　<em>"they&nbsp;work by comparing selected facial features&nbsp;from given image with faces within a database."</em></span></span></p>
+<p><span style="font-size: 15px; font-family: 'Microsoft YaHei';"><em>　　</em>本项目中就是比较 <strong>预设的人脸的特征&nbsp;</strong>和 <strong>摄像头实时获取到的人脸的特征&nbsp;</strong>；</span></p>
+<p><span style="background-color: #ffffff; font-size: 15px; font-family: 'Microsoft YaHei';">　　核心就是&nbsp;<strong>提取 128D 人脸特征，然后计算 摄像头人脸特征 和 预设的特征脸的<strong>欧式距离，</strong>进行比对；</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　效果如下：</span><span style="font-family: 'Microsoft YaHei';">　　</span></p>
+<center>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181005123021947-1880770901.png" alt="" />&nbsp;</p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 1 摄像头多个人脸时识别效果&nbsp;</strong></span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-size: 18px; font-family: 'Microsoft YaHei';"><strong>1. 总体流程</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>　　</strong>先说下 <strong>人脸检测 ( Face detection )</strong> 和<strong> 人脸识别 ( Face Recognition )</strong> ，前者是达到检测出场景中人脸的目的就可以了，而后者不仅需要检测出人脸，还要和<strong>已有人脸数据进行比对</strong>，识别出是否在数据库中，或者进行身份标注之类处理，人脸检测和人脸识别两者有时候可能会被理解混淆；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　我的之前一些项目都是用 Dlib 做人脸检测这块，这个项目想要实现的功能是人脸识别功能，借助的是 Dlib 官网中 face_recognition.py 这个例程 （ Link：<a title="http://dlib.net/face_recognition.py.html" href="http://dlib.net/face_recognition.py.html" target="_blank">http://dlib.net/face_recognition.py.html</a>&nbsp;）；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　核心在于 利用&ldquo;dlib_face_recognition_resnet_model_v1.dat&rdquo; 这个 model，提取<strong>人脸图像的 128D 特征</strong>，然后比对不同人脸图片的 128D 特征，设定阈值&nbsp;<strong>计算欧氏距离&nbsp;</strong>来判断是否为同一张脸；</span></p>
+<pre><code class="language-python">1 # face recognition model, the object maps human faces into 128D vectors
+2 facerec = dlib.face_recognition_model_v1("dlib_face_recognition_resnet_model_v1.dat")
+3 
+4 shape = predictor(img, dets[0])
+5 face_descriptor = facerec.compute_face_descriptor(img, shape)
+</code></pre>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<center>
+<p><img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181005123055901-1748654455.png" alt="" />&nbsp;</p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 2 总体设计流程</strong></span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-size: 18px; font-family: 'Microsoft YaHei';"><strong>2. 源码介绍</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>　</strong>　主要有</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong><em><span style="font-size: 18px;">　　　　get_face_from_camera.py</span></em> ,<span style="color: #0a0a0a; font-size: 18px;">&nbsp; </span></strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong><span style="color: #0a0a0a; font-size: 18px;">　　　　<em>get_features_into_CSV.py</em></span></strong>&nbsp;，</span></p>
+<p><span style="font-size: 18px; font-family: 'Microsoft YaHei';"><em><strong>　　　　face_reco_from_camera.py </strong></em></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　这三个 Python 文件，接下来会分别介绍实现功能；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong><span style="font-size: 16px;">2.1&nbsp;get_face_from_camera.py</span> / 人脸注册录入</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>　　</strong>人脸识别需要将 <strong>提取到的图像数据</strong> 和&nbsp;<strong>已有图像数据&nbsp;</strong>进行比对分析，所以这部分代码实现的功能就是<strong>&nbsp;人脸录入</strong>；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　程序会生成一个窗口，显示调用的摄像头实时获取的图像；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　<em>（关于摄像头的调用方式可以参考这里：&nbsp;<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/AdaminXie/p/8472743.html">Python 3 利用 Dlib 19.7 实现摄像头人脸检测特征点标定</a>）；</em></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><em>　　</em></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><em>　　</em>然后根据键盘输入进行人脸捕获：</span></p>
+<ul>
+<li><span style="font-family: 'Microsoft YaHei';">&ldquo;N&rdquo; 新录入人脸，新建文件夹 person_X/&nbsp; 用来存储某人的人脸图像</span></li>
+<li><span style="font-family: 'Microsoft YaHei';">&nbsp; "S" 开始捕获人脸，将捕获到的人脸放到 person_X/ 路径下</span></li>
+<li><span style="font-family: 'Microsoft YaHei';">&ldquo;Q&rdquo; 退出窗口</span></li>
+</ul>
+<p><span style="font-family: 'Microsoft YaHei';">　　</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　摄像头的调用是利用 opencv 库的&nbsp;<em>cv2.VideoCapture(0), </em>此处参数为 0 代表调用的是笔记本的默认摄像头；</span></p>
+<center>
+<p><span style="font-family: 'Microsoft YaHei';">　<img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181005122409281-755587000.png" alt="" /></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 3&nbsp;&nbsp;get_face_from_camera.py 的界面</strong></span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;　　</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　捕获到的一组人脸示例；</span></p>
+<center>
+<p><img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181002221712503-768390199.png" alt="" /></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 4 捕获到的一组人脸</strong></span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>　　get_face_from_camera.py 源码</strong></span></p>
+<pre><code class="language-python">
+# Author:   coneypo
+# Blog:     http://www.cnblogs.com/AdaminXie
+# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
+
+# Created at 2018-05-11
+# Updated at 2018-10-05
+
+# 进行人脸录入
+# 录入多张人脸
+
+import dlib         # 人脸识别的库 Dlib
+import numpy as np  # 数据处理的库 Numpy
+import cv2          # 图像处理的库 OpenCv
+
+import os           # 读写文件
+import shutil
+
+# Dlib 正向人脸检测器
+detector = dlib.get_frontal_face_detector()
+
+# Dlib 68 点特征预测器
+predictor = dlib.shape_predictor('data/dlib_dat/shape_predictor_68_face_landmarks.dat')
+
+# 创建 cv2 摄像头对象
+cap = cv2.VideoCapture(0)
+
+# cap.set(propId, value)
+# 设置视频参数, propId 设置的视频参数, value 设置的参数值
+cap.set(3, 480)
+
+# 人脸截图的计数器
+cnt_ss = 0
+
+# 存储人脸的文件夹
+current_face_dir = 0
+
+# 保存的路径
+path_make_dir = "data/faces_from_camera/"
+
+path_csv = "data/csvs_from_camera/"
+
+
+# 删除之前存的人脸数据文件夹
+def pre_clear():
+    folders_rd = os.listdir(path_make_dir)
+    for i in range(len(folders_rd)):
+        shutil.rmtree(path_make_dir+folders_rd[i])
+
+    csv_rd = os.listdir(path_csv)
+    for i in range(len(csv_rd)):
+        os.remove(path_csv+csv_rd[i])
+
+
+pre_clear()
+
+
+# 人脸种类数目的计数器
+person_cnt = 0
+
+# cap.isOpened() 返回 true/false 检查初始化是否成功
+while cap.isOpened():
+
+    # cap.read()
+    # 返回两个值：
+    #    一个布尔值 true/false, 用来判断读取视频是否成功/是否到视频末尾
+    #    图像对象, 图像的三维矩阵
+    flag, im_rd = cap.read()
+
+    # 每帧数据延时 1ms, 延时为 0 读取的是静态帧
+    kk = cv2.waitKey(1)
+
+    # 取灰度
+    img_gray = cv2.cvtColor(im_rd, cv2.COLOR_RGB2GRAY)
+
+    # 人脸数 faces
+    faces = detector(img_gray, 0)
+
+    # print(len(faces))
+
+    # 待会要写的字体
+    font = cv2.FONT_HERSHEY_COMPLEX
+
+    # 按下 'n' 新建存储人脸的文件夹
+    if kk == ord('n'):
+        person_cnt += 1
+        current_face_dir = path_make_dir + "person_" + str(person_cnt)
+        print('\n')
+        for dirs in (os.listdir(path_make_dir)):
+            if current_face_dir == path_make_dir + dirs:
+                shutil.rmtree(current_face_dir)
+                print("删除旧的文件夹:", current_face_dir)
+        os.makedirs(current_face_dir)
+        print("新建的人脸文件夹: ", current_face_dir)
+
+        # 将人脸计数器清零
+        cnt_ss = 0
+
+    if len(faces) != 0:
+        # 检测到人脸
+
+        # 矩形框
+        for k, d in enumerate(faces):
+
+            # 计算矩形大小
+            # (x,y), (宽度width, 高度height)
+            pos_start = tuple([d.left(), d.top()])
+            pos_end = tuple([d.right(), d.bottom()])
+
+            # 计算矩形框大小
+            height = (d.bottom() - d.top())
+            width = (d.right() - d.left())
+
+            hh = int(height/2)
+            ww = int(width/2)
+
+            cv2.rectangle(im_rd,
+                          tuple([d.left()-ww, d.top()-hh]),
+                          tuple([d.right()+ww, d.bottom()+hh]),
+                          (0, 255, 255), 2)
+
+            # 根据人脸大小生成空的图像
+            im_blank = np.zeros((height*2, width*2, 3), np.uint8)
+
+            # 按下 's' 保存摄像头中的人脸到本地
+            if kk == ord('s'):
+                cnt_ss += 1
+                for ii in range(height*2):
+                    for jj in range(width*2):
+                        im_blank[ii][jj] = im_rd[d.top()-hh + ii][d.left()-ww + jj]
+                cv2.imwrite(current_face_dir + "/img_face_" + str(cnt_ss) + ".jpg", im_blank)
+                print("写入本地：", str(current_face_dir) + "/img_face_" + str(cnt_ss) + ".jpg")
+
+        # 显示人脸数
+    cv2.putText(im_rd, "Faces: " + str(len(faces)), (20, 100), font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
+
+    # 添加说明
+    cv2.putText(im_rd, "Face Register", (20, 40), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(im_rd, "N: New face folder", (20, 350), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(im_rd, "S: Save face", (20, 400), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(im_rd, "Q: Quit", (20, 450), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+
+    # 按下 'q' 键退出
+    if kk == ord('q'):
+        break
+
+    # 窗口显示
+    # cv2.namedWindow("camera", 0) # 如果需要摄像头窗口大小可调
+    cv2.imshow("camera", im_rd)
+
+# 释放摄像头
+cap.release()
+
+# 删除建立的窗口
+cv2.destroyAllWindows()
+</code></pre>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>　　get_face_from_camera.py 的输出 log</strong></span></p>
+<pre><code class="language-bash">删除旧的文件夹: F:/code/python/P_dlib_face_reco/data/faces_from_camera/<span style="color: #000000;">person_1
+新建的人脸文件夹:  F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/<span style="color: #000000;">person_1
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_1/<span style="color: #000000;">img_face_1.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_1/<span style="color: #000000;">img_face_2.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_1/<span style="color: #000000;">img_face_3.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_1/<span style="color: #000000;">img_face_4.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_1/<span style="color: #000000;">img_face_5.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_1/<span style="color: #000000;">img_face_6.jpg
+
+
+删除旧的文件夹: F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/<span style="color: #000000;">person_2
+新建的人脸文件夹:  F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/<span style="color: #000000;">person_2
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_2/<span style="color: #000000;">img_face_1.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_2/<span style="color: #000000;">img_face_2.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_2/<span style="color: #000000;">img_face_3.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_2/<span style="color: #000000;">img_face_4.jpg
+
+
+删除旧的文件夹: F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/<span style="color: #000000;">person_3
+新建的人脸文件夹:  F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/<span style="color: #000000;">person_3
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_3/<span style="color: #000000;">img_face_1.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_3/<span style="color: #000000;">img_face_2.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_3/<span style="color: #000000;">img_face_3.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_3/<span style="color: #000000;">img_face_4.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_3/<span style="color: #000000;">img_face_5.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_3/<span style="color: #000000;">img_face_6.jpg
+写入本地： F:</span>/code/python/P_dlib_face_reco/data/faces_from_camera/person_3/<span style="color: #000000;">img_face_7.jpg
+</code></pre>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>2.2</strong> <strong>get_features_into_CSV.py / 将图像文件中人脸数据提取出来存入 CSV</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　这部分代码提取出之前捕获到的人脸图像文件的 128D 特征，然后计算出某人人脸数据的特征均值存入 CSV 中，为之后识别时候比对准备；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　利用 numpy.mean() 计算特征均值；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　<strong>get_features_into_CSV.py 源码：</strong></span></p>
+<pre><code class="language-python"># Author:   coneypo
+# Blog:     http://www.cnblogs.com/AdaminXie
+# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
+
+# Created at 2018-05-11
+# Updated at 2018-10-09
+
+# 增加录入多张人脸到 CSV 的功能
+
+# return_128d_features()          获取某张图像的 128D 特征
+# write_into_csv()                获取某个路径下所有图像的特征，并写入 CSV
+# compute_the_mean()              从 CSV　中读取　128D 特征，并计算特征均值
+
+import cv2
+import os
+import dlib
+from skimage import io
+import csv
+import numpy as np
+import pandas as pd
+
+path_faces_rd = "data/faces_from_camera/"
+path_csv = "data/csvs_from_camera/"
+
+# Dlib 正向人脸检测器
+detector = dlib.get_frontal_face_detector()
+
+# Dlib 人脸预测器
+predictor = dlib.shape_predictor("data/dlib_dat/shape_predictor_5_face_landmarks.dat")
+
+# Dlib 人脸识别模型
+# Face recognition model, the object maps human faces into 128D vectors
+facerec = dlib.face_recognition_model_v1("data/dlib_dat/dlib_face_recognition_resnet_model_v1.dat")
+
+
+# 返回单张图像的 128D 特征
+def return_128d_features(path_img):
+    img = io.imread(path_img)
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    faces = detector(img_gray, 1)
+
+    print("检测的人脸图像：", path_img, "\n")
+
+    # 因为有可能截下来的人脸再去检测，检测不出来人脸了
+    # 所以要确保是 检测到人脸的人脸图像 拿去算特征
+    if len(faces) != 0:
+        shape = predictor(img_gray, faces[0])
+        face_descriptor = facerec.compute_face_descriptor(img_gray, shape)
+    else:
+        face_descriptor = 0
+        print("no face")
+
+    # print(face_descriptor)
+    return face_descriptor
+
+
+# 将文件夹中照片特征提取出来，写入 CSV
+#   path_faces_personX:     图像文件夹的路径
+#   path_csv:               要生成的 CSV 路径
+
+def write_into_csv(path_faces_personX, path_csv):
+    dir_pics = os.listdir(path_faces_personX)
+    with open(path_csv, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        for i in range(len(dir_pics)):
+            # 调用return_128d_features()得到128d特征
+            print("正在读的人脸图像：", path_faces_personX + "/" + dir_pics[i])
+            features_128d = return_128d_features(path_faces_personX + "/" + dir_pics[i])
+            #  print(features_128d)
+            # 遇到没有检测出人脸的图片跳过
+            if features_128d == 0:
+                i += 1
+            else:
+                writer.writerow(features_128d)
+
+
+# 读取某人所有的人脸图像的数据，写入 person_X.csv
+faces = os.listdir(path_faces_rd)
+for person in faces:
+    print(path_csv + person + ".csv")
+    write_into_csv(path_faces_rd + person, path_csv + person + ".csv")
+
+
+# 从 CSV 中读取数据，计算 128D 特征的均值
+def compute_the_mean(path_csv_rd):
+    column_names = []
+
+    # 128列特征
+    for feature_num in range(128):
+        column_names.append("features_" + str(feature_num + 1))
+
+    # 利用pandas读取csv
+    rd = pd.read_csv(path_csv_rd, names=column_names)
+
+    # 存放128维特征的均值
+    feature_mean = []
+
+    for feature_num in range(128):
+        tmp_arr = rd["features_" + str(feature_num + 1)]
+        tmp_arr = np.array(tmp_arr)
+
+        # 计算某一个特征的均值
+        tmp_mean = np.mean(tmp_arr)
+        feature_mean.append(tmp_mean)
+    return feature_mean
+
+
+# 存放所有特征均值的 CSV 的路径
+path_csv_feature_all = "data/features_all.csv"
+
+# 存放人脸特征的 CSV 的路径
+path_csv_rd = "data/csvs_from_camera/"
+
+with open(path_csv_feature_all, "w", newline="") as csvfile:
+    writer = csv.writer(csvfile)
+    csv_rd = os.listdir(path_csv_rd)
+    print("得到的特征均值 / The generated average values of features: ")
+
+    for i in range(len(csv_rd)):
+        feature_mean = compute_the_mean(path_csv_rd + csv_rd[i])
+        # print(feature_mean)
+        print(path_csv_rd + csv_rd[i])
+        writer.writerow(feature_mean)
+</code></pre>
+
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　我们可以看下对于某张图片，face_descriptor 的输出结果：</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　<span style="color: #339966;">绿色框内是我们的返回 128D 特征的函数；</span></span></p>
+<p><span style="color: #ff0000; font-family: 'Microsoft YaHei';">　　在红色框内调用该函数来计算 img_face_13.jpg；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><span style="color: #b7b700;">　　可以看到黄色框中的输出为 128D 的向量</span>；</span></p>
+<center>
+<p><span style="font-family: 'Microsoft YaHei';"><img src="https://images2018.cnblogs.com/blog/1152352/201805/1152352-20180511120053065-1934983472.png" alt="" /></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 5 返回单张图像的 128D 特征的计算结果</strong></span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　所以就把人脸图像进行批量化操作，提取出 128D 的特征，然后计算特征均值，存入 features_all.csv；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　features_all.csv 是一个 n 行 128 列的 CSV， n 是录入的人脸数，128 列是某人的 128D 特征；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　这存储的就是 <strong>录入的人脸数据，</strong>之后&nbsp;<strong><span style="text-decoration: underline;">摄像头捕获的人脸</span> </strong>将要拿过来和<strong>&nbsp;这些<span style="text-decoration: underline;">特征值</span> 进行比对，如果欧式距离比较近可以认为是同一张人脸</strong>；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;　　<strong>get_features_into_CSV.py 的输出 log：</strong></span></p>
+<pre><code class="language-python">data/csvs_from_camera/person_1.csv
+正在读的人脸图像： data/faces_from_camera/person_1/img_face_1.jpg
+检测的人脸图像： data/faces_from_camera/person_1/img_face_1.jpg 
+
+正在读的人脸图像： data/faces_from_camera/person_1/img_face_2.jpg
+检测的人脸图像： data/faces_from_camera/person_1/img_face_2.jpg 
+
+正在读的人脸图像： data/faces_from_camera/person_1/img_face_3.jpg
+检测的人脸图像： data/faces_from_camera/person_1/img_face_3.jpg 
+
+正在读的人脸图像： data/faces_from_camera/person_1/img_face_4.jpg
+检测的人脸图像： data/faces_from_camera/person_1/img_face_4.jpg 
+
+正在读的人脸图像： data/faces_from_camera/person_1/img_face_5.jpg
+检测的人脸图像： data/faces_from_camera/person_1/img_face_5.jpg 
+
+得到的特征均值 / The generated average values of features: 
+data/csvs_from_camera/person_1.csv
+</code></pre>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong><span style="font-size: 16px;">2.3 face_reco_from_camera.py</span> / 实时人脸识别对比分析</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　这部分源码实现的功能：调用摄像头，捕获摄像头中的人脸，然后如果检测到人脸，将&nbsp;<strong><span style="text-decoration: underline;">摄像头中的人脸提取出 128D 的特征</span></strong>，然后和&nbsp;<strong><span style="text-decoration: underline;">之前录入人脸的 128D 特征&nbsp;</span></strong>进行计算欧式距离，如果比较小，可以判定为一个人，否则不是一个人；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　欧氏距离对比的阈值设定，是在 <em>return_euclidean_distance&nbsp;</em>函数的&nbsp;<em>dist&nbsp;</em>变量；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　我这里程序里面指定的&nbsp;<strong>欧氏距离判断阈值是 0.4</strong>，具体阈值可以根据实际情况或者测得结果进行修改；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　这边做了一个，让人名跟随显示在头像下方，如果想要在人脸矩形框下方显示人名，首先需要知道 Dlib 生成的矩形框的尺寸怎么读取；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　Dlib 返回的 dets 变量是一系列人脸的数据，此处对单张人脸处理，所以取 dets[0] 的参数；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　可以通过 <strong>dets[0].top()</strong>,&nbsp;<strong>dets[0].bottom()</strong>,&nbsp;<strong>dets[0].left()</strong> 和&nbsp;<strong>dets[0].right()</strong> 来确定要显示的人名的坐标；</span></p>
+<center>
+<p><span style="font-family: 'Microsoft YaHei';"><img src="https://images2018.cnblogs.com/blog/1152352/201805/1152352-20180514142507362-928466423.png" alt="" width="763" height="479" /></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 6 dets[0].top() 等参数说明&nbsp;</strong></span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">　　</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　得到矩形框的坐标，就可以获取人名的相对位置；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　这是我这边取的坐标：</span></p>
+<pre><code class="language-python">1 pos_text_1 = tuple([dets[0].left(), int(dets[0].bottom()+(dets[0].bottom()-dets[0].top())/4)])
+</code></pre>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<center>
+<p><span style="font-family: 'Microsoft YaHei';">　　<img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181004111207854-1934282753.png" alt="" /></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 7&nbsp;face_reco_from_camera.py 生成的人脸识别窗口界面</strong></span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　<strong>face_reco_from_camera.py</strong>&nbsp;源码：</span></p>
+<pre><code class="language-python"># Author:   coneypo
+# Blog:     http://www.cnblogs.com/AdaminXie
+# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
+
+# Created at 2018-05-11
+# Updated at 2018-10-09
+
+import dlib         # 人脸识别的库 Dlib
+import numpy as np  # 数据处理的库 numpy
+import cv2          # 图像处理的库 OpenCv
+import pandas as pd # 数据处理的库 Pandas
+
+# 人脸识别模型，提取 128D 的特征矢量
+# face recognition model, the object maps human faces into 128D vectors
+facerec = dlib.face_recognition_model_v1("data/dlib_dat/dlib_face_recognition_resnet_model_v1.dat")
+
+
+# 计算两个向量间的欧式距离
+def return_euclidean_distance(feature_1, feature_2):
+    feature_1 = np.array(feature_1)
+    feature_2 = np.array(feature_2)
+    dist = np.sqrt(np.sum(np.square(feature_1 - feature_2)))
+    print("e_distance: ", dist)
+
+    if dist > 0.4:
+        return "diff"
+    else:
+        return "same"
+
+
+# 处理存放所有人脸特征的 CSV
+path_features_known_csv = "data/features_all.csv"
+csv_rd = pd.read_csv(path_features_known_csv, header=None)
+
+# 存储的特征人脸个数
+# print(csv_rd.shape[0])
+
+# 用来存放所有录入人脸特征的数组
+features_known_arr = []
+
+# 读取已知人脸数据
+# known faces
+for i in range(csv_rd.shape[0]):
+    features_someone_arr = []
+    for j in range(0, len(csv_rd.ix[i, :])):
+        features_someone_arr.append(csv_rd.ix[i, :][j])
+    #    print(features_someone_arr)
+    features_known_arr.append(features_someone_arr)
+print("Faces in Database：", len(features_known_arr))
+
+# Dlib 检测器和预测器
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor('data/dlib_dat/shape_predictor_68_face_landmarks.dat')
+
+# 创建 cv2 摄像头对象
+cap = cv2.VideoCapture(0)
+
+# cap.set(propId, value)
+# 设置视频参数，propId 设置的视频参数，value 设置的参数值
+cap.set(3, 480)
+
+
+# 返回一张图像多张人脸的 128D 特征
+def get_128d_features(img_gray):
+    faces = detector(img_gray, 1)
+    if len(faces) != 0:
+        face_des = []
+        for i in range(len(faces)):
+            shape = predictor(img_gray, faces[i])
+            face_des.append(facerec.compute_face_descriptor(img_gray, shape))
+    else:
+        face_des = []
+    return face_des
+
+
+# cap.isOpened() 返回 true/false 检查初始化是否成功
+while cap.isOpened():
+
+    flag, img_rd = cap.read()
+    kk = cv2.waitKey(1)
+
+    # 取灰度
+    img_gray = cv2.cvtColor(img_rd, cv2.COLOR_RGB2GRAY)
+
+    # 人脸数 faces
+    faces = detector(img_gray, 0)
+
+    # 待会要写的字体
+    font = cv2.FONT_HERSHEY_COMPLEX
+
+    cv2.putText(img_rd, "Press 'q': Quit", (20, 450), font, 0.8, (84, 255, 159), 1, cv2.LINE_AA)
+
+    # 存储人脸名字和位置的两个 list
+    # list 1 (faces): store the name of faces               Jack    unknown unknown Mary
+    # list 2 (pos_namelist): store the positions of faces   12,1    1,21    1,13    31,1
+
+    # 存储所有人脸的名字
+    pos_namelist = []
+    name_namelist = []
+
+    # 按下 q 键退出
+    if kk == ord('q'):
+        break
+    else:
+        # 检测到人脸
+        if len(faces) != 0:
+            # 获取当前捕获到的图像的所有人脸的特征，存储到 features_cap_arr
+            features_cap_arr = []
+            for i in range(len(faces)):
+                shape = predictor(img_rd, faces[i])
+                features_cap_arr.append(facerec.compute_face_descriptor(img_rd, shape))
+
+            # 遍历捕获到的图像中所有的人脸
+            for k in range(len(faces)):
+                # 让人名跟随在矩形框的下方
+                # 确定人名的位置坐标
+                # 先默认所有人不认识，是 unknown
+                name_namelist.append("unknown")
+
+                # 每个捕获人脸的名字坐标
+                pos_namelist.append(tuple([faces[k].left(), int(faces[k].bottom() + (faces[k].bottom() - faces[k].top()) / 4)]))
+
+                # 对于某张人脸，遍历所有存储的人脸特征
+                for i in range(len(features_known_arr)):
+                    print("with person_", str(i+1), "the ", end='')
+                    # 将某张人脸与存储的所有人脸数据进行比对
+                    compare = return_euclidean_distance(features_cap_arr[k], features_known_arr[i])
+                    if compare == "same":  # 找到了相似脸
+                        name_namelist[k] = "person_" + str(i+1)
+
+                # 矩形框
+                for kk, d in enumerate(faces):
+                    # 绘制矩形框
+                    cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]), (0, 255, 255), 2)
+
+            # 在人脸框下面写人脸名字
+            for i in range(len(faces)):
+                cv2.putText(img_rd, name_namelist[i], pos_namelist[i], font, 0.8, (0, 255, 255), 1, cv2.LINE_AA)
+
+    print("Name list now:", name_namelist, "\n")
+
+    cv2.putText(img_rd, "Face Recognition", (20, 40), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(img_rd, "Faces: " + str(len(faces)), (20, 100), font, 1, (0, 0, 255), 1, cv2.LINE_AA)
+
+    # 窗口显示
+    cv2.imshow("camera", img_rd)
+
+# 释放摄像头
+cap.release()
+
+# 删除建立的窗口
+cv2.destroyAllWindows()
+
+</code></pre>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　<strong>face_reco_from_camera.py&nbsp;</strong>输出 log：</span></p>
+<pre><code class="language-bash">Faces in Database： 5
+Name list now: [] 
+
+Name list now: [] 
+
+Name list now: [] 
+
+Name list now: [] 
+
+Name list now: [] 
+
+with person_ 1 the e_distance:  0.40770022710364756
+with person_ 2 the e_distance:  0.41082186674421134
+with person_ 3 the e_distance:  0.3961545573801463
+with person_ 4 the e_distance:  0.3881850644563972
+with person_ 5 the e_distance:  0.3495735780870818
+Name list now: ['person_4'] 
+
+with person_ 1 the e_distance:  0.4314467101915446
+with person_ 2 the e_distance:  0.4299990464683071
+with person_ 3 the e_distance:  0.4182695008637471
+with person_ 4 the e_distance:  0.4173694262729763
+with person_ 5 the e_distance:  0.38357217732017734
+Name list now: ['person_4'] 
+
+with person_ 1 the e_distance:  0.4262991040992263
+with person_ 2 the e_distance:  0.43254966504500664
+with person_ 3 the e_distance:  0.41576433114841965
+with person_ 4 the e_distance:  0.4122140311433292
+with person_ 5 the e_distance:  0.38073570942005236
+Name list now: ['person_4'] 
+
+with person_ 1 the e_distance:  0.42088261541728456
+with person_ 2 the e_distance:  0.42064499551908163
+with person_ 3 the e_distance:  0.404443147870785
+with person_ 4 the e_distance:  0.4043774203639022
+with person_ 5 the e_distance:  0.37271089160417986
+Name list now: ['person_4'] 
+</code></pre>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　实时输出结果：</span></p>
+<center>
+<p><span style="font-family: 'Microsoft YaHei';"><img src="https://images2018.cnblogs.com/blog/1152352/201805/1152352-20180511181802460-722994837.png" alt="" /></span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>图 9 实时输出的欧氏距离结果</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+</center>
+<p><span style="font-family: 'Microsoft YaHei';">　　通过实时的输出结果，看的比较明显；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　<span style="color: #339966;">输出绿色部分：当是我自己（即之前分析提取特征的<em>default_person</em>）时，计算出来的欧式距离基本都在&nbsp;<strong>0.2 左右</strong>；</span></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　<span style="color: #ff0000;">输出红色部分：而换一张图片上去比如特朗普，明显看到欧式距离计算结果&nbsp;<strong>达到了 0.8</strong>，此时就可以判定，后来这张人脸不是我们预设的人脸；</span></span></p>
+<p><span style="color: #ff0000; font-family: 'Microsoft YaHei';">　　<span style="color: #000000;">所以之前提到的欧式距离计算对比的阈值可以由此设定，本项目中取的是 <strong>dist=0.4</strong>；</span></span></p>
+<p><span style="color: #ff0000; font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style="font-family: 'Microsoft YaHei';"><strong>3. 总结</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　核心就是&nbsp;<strong>提取人脸特征，然后计算欧式距离和预设的特征脸进行比对；</strong></span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　不过这个实时获取摄像头人脸进行比对，要实时的进行计算摄像头脸的特征值，然后还要计算欧氏距离；</span></p>
+<p><span style="font-family: 'Microsoft YaHei';">　　所以计算量比较大，可能摄像头视频流会出现卡顿；</span></p>
+<br>
+<p><strong></strong> <strong> GitHub: &nbsp;<a title="Dlib_face_cut" href="https://github.com/coneypo/Dlib_face_recognition_from_camera" target="_blank">https://github.com/coneypo/Dlib_face_recognition_from_camera</a></strong></p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Mail : &nbsp;&nbsp;&nbsp;&nbsp; <a href="mailto:coneypo@foxmail.com">coneypo@foxmail.com</a></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+</main>
+</body>
+</html>
+</html>
