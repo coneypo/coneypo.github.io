@@ -20,12 +20,13 @@
 
 <br>
 <p><strong><span style="font-size: 18px;">0. 引言</span><br /></strong></p>
-<p>利用 Python 开发，借助 Dlib 库进行人脸检测 / face detection；</p>
-<p><strong>1.</strong>&nbsp;<strong><a id="840b1e4adc2ca0d93ef60f54c7e2b1cc-ca73c1b5eb805b25f59a450e3718eec671866d5c" class="js-navigation-open" title="crop_faces_show.py" href="https://github.com/coneypo/Dlib_face_cut/blob/master/crop_faces_show.py">crop_faces_show.py</a>&nbsp;:</strong><span style="text-decoration: underline;"><strong><span style="font-size: 16px;"><br /></span></strong></span></p>
-<p>将检测到的人脸剪切下来，依次排序平铺显示在新的图像上；</p>
-<p>实现的效果如图1所示，将图1原图中的6张人脸检测出来，然后剪切下来，在图像窗口中依次输出显示人脸；</p>
-<p><strong>2.&nbsp;<strong><a id="0b4249af0ff9241a5a3159de48a7142d-35a784cc8f0aaa493420209ab9774a8674cd1cef" class="js-navigation-open" title="crop_faces_save.py" href="https://github.com/coneypo/Dlib_face_cut/blob/master/crop_faces_save.py">crop_faces_save.py</a>&nbsp;</strong>:</strong></p>
-<p>将检测到的人脸存储为单个人脸图像；</p>
+<p>　　利用 Python 开发，借助 Dlib 库进行人脸检测 / face detection 和剪切；</p>
+
+<p><strong>　　1.</strong>&nbsp;<strong><a id="840b1e4adc2ca0d93ef60f54c7e2b1cc-ca73c1b5eb805b25f59a450e3718eec671866d5c" class="js-navigation-open" title="crop_faces_show.py" href="https://github.com/coneypo/Dlib_face_cut/blob/master/crop_faces_show.py">crop_faces_show.py</a>&nbsp;:</strong><span style="text-decoration: underline;"><strong><span style="font-size: 16px;"><br /></span></strong></span></p>
+<p>　　　　将检测到的人脸剪切下来，依次排序平铺显示在新的图像上；</p>
+<p>　　　　实现的效果如 图1 所示，将 图1 原图中的 6 张人脸检测出来，然后剪切下来，在图像窗口中依次输出显示人脸；</p>
+<p><strong>　　2.&nbsp;<strong><a id="0b4249af0ff9241a5a3159de48a7142d-35a784cc8f0aaa493420209ab9774a8674cd1cef" class="js-navigation-open" title="crop_faces_save.py" href="https://github.com/coneypo/Dlib_face_cut/blob/master/crop_faces_save.py">crop_faces_save.py</a>&nbsp;</strong>:</strong></p>
+<p>　　　　将检测到的人脸存储为单个人脸图像；</p>
 <center>
 <p><img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180124074534912-1357533271.png" alt="" width="698" height="634" /></p>
 <p><strong>图 1 原图和&nbsp;crop_faces_show.py&nbsp;处理后得到的平铺人脸图像窗口</strong></p>
@@ -46,12 +47,12 @@ import cv2          # 图像处理的库OpenCv
 
 <p>&nbsp;</p>
 <p><span style="font-size: 18px;"><strong>2. 设计流程</strong></span></p>
-<p>工作内容主要以下两大块<strong>：Dlib 人脸检测 和 处理检测到的人脸图像</strong></p>
-<p><strong>2.1 Dlib 人脸检测</strong></p>
-<p>利用已经训练好的 Dlib 正向人脸检测器 <b>detector = dlib.get_frontal_face_detector()</b> 进行人脸检测；</p>
-<p>可以得到人脸外接矩形的坐标，用来之后进行裁剪；</p>
-<p>具体 Dlib 的使用，请参考我另一篇博客；</p>
-<p>( link:&nbsp;<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/AdaminXie/p/7905888.html">Python 3 利用 Dlib 19.7 进行人脸检测</a>）；</p>
+<p><strong>　　</strong>工作内容主要以下两大块<strong>：Dlib 人脸检测 </strong>和<strong>&nbsp;<strong>处理检测到的人脸图像</strong></strong></p>
+<p><strong>2.1 Dlib 人脸检测</strong>　　</p>
+<p>　　利用已经训练好的 Dlib 正向人脸检测器&nbsp;<strong>detector = dlib.get_frontal_face_detector( )</strong>&nbsp;进行人脸检测；</p>
+<p>　　可以得到人脸外接矩形的坐标，用来之后进行裁剪；</p>
+<p>　　具体 Dlib 的使用，请参考我另一篇博客；</p>
+<p>　　( link:&nbsp;<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/AdaminXie/p/7905888.html">Python 3 利用 Dlib 19.7 进行人脸检测</a>）；</p>
 <pre><code class="language-python"># Dlib 检测器
  detector = dlib.get_frontal_face_detector()
   
@@ -67,15 +68,13 @@ import cv2          # 图像处理的库OpenCv
 </code></pre>
 <br>
 <p><strong>2.2&nbsp;绘制新图像</strong></p>
-<p>如果你想让人脸并排显示的话，稍微麻烦一点，需要遍历两次 faces（for k, d in enumerate (faces)）:</p>
-<p>&nbsp;<strong>第一次遍历：</strong>记录下我们需要生成的图像窗口的大小，因为需要将多张照片显示在一张图像上，所以需要知道每张人脸照片的大小；</p>
-<p>&nbsp;<strong>第二次遍历：</strong>根据之前得到的图像尺寸新建空白图像，然后开始用人脸矩形填充图像；</p>
+<p>　　如果你想让检测出来的人脸并排显示的话，需要遍历两次（ for k, d in enumerate (faces) ）:</p>
+<p>　　&nbsp;<strong>第一次遍历：</strong>记录下我们需要生成的图像窗口的大小，因为需要将多张照片显示在一张图像上，所以需要知道每张人脸照片的大小；</p>
+<p><strong>　　 第二次遍历：</strong>根据之前得到的图像尺寸新建空白图像，然后开始用人脸矩形填充图像；</p>
 <p>&nbsp;</p>
 <p>2.2.1 确定空白图像尺寸</p>
-<p>（这部分首先要根据检测到的人脸数和人脸大小，来确定绘制图像所需要的尺寸）　　</p>
-<p><strong>第一次遍历：</strong></p>
-<p>&nbsp;&nbsp;多张人脸要输出到一行，所以先进行一次人脸的遍历，记下每张人脸的大小，</p>
-<p>&nbsp;&nbsp;记每张人脸的尺寸为&nbsp;<span style="font-size: 16px;"><strong>高度 height&nbsp; *宽度 width</strong></span>（高度和宽度说明见图3）：</p>
+<p style="margin-left: 30px;">( 这部分首先要根据检测到的人脸数和人脸大小，来确定绘制图像所需要的尺寸）　　</p>
+<p style="margin-left: 30px;"><strong>第一次遍历：</strong>多张人脸要输出到一行，所以先进行一次人脸的遍历j记下每张人脸的大小，记每张人脸的尺寸为 <strong>[</strong>&nbsp;<span style="font-size: 16px;"><strong>高度 height&nbsp; * 宽度 width ]</strong></span>（高度和宽度说明见 图 3 ）：</p>
 <center>
 <p><img src="http://images2017.cnblogs.com/blog/1152352/201801/1152352-20180129153820484-2828104.png" alt="" width="683" height="429" /></p>
 <p><strong>图 3 图像尺寸说明</strong></p>
@@ -90,9 +89,7 @@ import cv2          # 图像处理的库OpenCv
 <p><strong>图 4 图像尺寸 height_max 和 width_sum</strong></p>
 </center>
 <p>2.2.2 图像填充</p>
-<p><strong>第二次遍历：</strong></p>
-<p>&nbsp;&nbsp; 根据之前得到的图像尺寸，新建空白图像，然后开始用识别出来的人脸矩形填充空白图像；</p>
-<p>&nbsp;&nbsp; 每次 width 方向从 blank_start 位置开始，每次填完一张之后记得更新起始位置：（blank_start += width）：</p>
+<p><strong>　　第二次遍历：</strong>多根据之前得到的图像尺寸新建空白图像，然后开始用人脸矩形填充图像，每次 width 方向从 blank_start 位置开始，每次填完一张之后记得更新起始位置：（ blank_start += width ）：</p>
 <pre><code class="language-python">for i in range(height):
      for j in range(width):
          img_blank[i][blank_start + j] = img[d.top() + i][d.left() + j]

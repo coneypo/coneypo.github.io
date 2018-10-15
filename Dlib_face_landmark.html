@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="theme/layout/style_content.css" rel="stylesheet" type="text/css">
+	<link href="theme/layout/prism.css" rel="stylesheet" />
+</head>
+<body>
+<script src="theme/layout/prism.js"></script>
+<section class="hero">
+  <div>
+    <h2>Python 3 利用 Dlib 实现摄像头人脸检测特征点标定</h2>
+    <em><b class="meta"><i></i> Author : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; coneypo</b><br>
+    <b class="meta"><i>Created at :&nbsp;&nbsp;&nbsp;Jan 24, 2018</i> </b><br>
+	<b class="meta"><i>Updated at :&nbsp;&nbsp;Sep 27, 2018</i> </b>
+	</em>
+  </div>
+</section>
+
+<main>
+<br>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>0. 引言<br /></strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　利用 Python 开发，借助 Dlib 库捕获摄像头中的人脸，进行实时人脸 68 个特征点标定；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　支持多张人脸；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　有截图功能；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<center>
+<p><span style=" font-family: 'Microsoft YaHei';">　<img src="https://images2018.cnblogs.com/blog/1152352/201802/1152352-20180228013604543-667099787.gif" alt="" /></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>图 1 工程效果示例（ gif ）</strong></span></p>
+
+
+
+
+
+
+
+</center><center>
+<p><span style=" font-family: 'Microsoft YaHei';"><img src="https://images2018.cnblogs.com/blog/1152352/201802/1152352-20180228014241220-290004683.png" alt="" width="786" height="672" /></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>图 2 工程效果示例（ 静态图片 ）</strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+
+
+
+</center>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>1.&nbsp;</strong><strong>开发环境</strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　Python:　　3.6.3</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　Dlib:　　　 19.7</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　OpenCv, NumPy</span></p>
+<pre><code class="language-python">import dlib                  # 人脸检测的库 Dlib
+import numpy as np   # 数据处理的库 NumPy
+import cv2                   # 图像处理的库 OpenCv
+</code></pre>
+<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>2. 源码介绍</strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>　　</strong>其实实现很简单，主要分为两个部分：<span style="color: #808080;"><strong>摄像头调用 + 人脸特征点标定</strong></span></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>2.1 摄像头调用</strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　介绍下 OpenCv 中摄像头的调用方法，用到以下几个 OpenCv 函数：</span></p>
+<p><span style="font-family: 'Microsoft YaHei'; font-size: 14px;">　　　　cv2.VideoCapture(0) 　　　　　&nbsp; &nbsp; &nbsp; &nbsp; 　创建一个对象；</span></p>
+<p><span style="font-family: 'Microsoft YaHei'; font-size: 14px;">　　　　cv2.VideoCapture.set(propId, value)　　设置视频参数；</span></p>
+<p><span style="font-family: 'Microsoft YaHei'; font-size: 14px;">　　　　cv2.VideoCapture.isOpened()　　　　　检测读取视频是否成功；</span></p>
+<p><span style="font-family: 'Microsoft YaHei'; font-size: 14px;">　　　　cv2.VideoCapture.read()　　　　　　　 返回是否读取成功和读取到的帧图像；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><em>　　</em>（具体可以参考官方文档：<a title="Reading and Writing Images and Video" href="https://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html" target="_blank">https://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html</a>）</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　关于 cv2 中 VideoCapture 类的一些函数参数的说明如下：</span></p>
+<pre><code class="language-python">
+# Sort by coneypo
+# Updated at 10, Oct
+# Blog: http://www.cnblogs.com/AdaminXie
+
+
+###### 1. cv2.VideoCapture(), 创建cv2摄像头对象 / Open the default camera ######
+"""
+    Python: cv2.VideoCapture() → <VideoCapture object>
+
+    Python: cv2.VideoCapture(filename) → <VideoCapture object>    
+    filename – name of the opened video file (eg. video.avi) or image sequence (eg. img_%02d.jpg, which will read samples like img_00.jpg, img_01.jpg, img_02.jpg, ...)
+
+    Python: cv2.VideoCapture(device) → <VideoCapture object>
+    device – id of the opened video capturing device (i.e. a camera index). If there is a single camera connected, just pass 0.
+"""
+cap = cv2.VideoCapture(0)
+
+
+
+##### 2. cv2.VideoCapture.set(propId, value)，设置视频参数; #####
+"""
+    propId:
+    CV_CAP_PROP_POS_MSEC Current position of the video file in milliseconds.
+    CV_CAP_PROP_POS_FRAMES 0-based index of the frame to be decoded/captured next.
+    CV_CAP_PROP_POS_AVI_RATIO Relative position of the video file: 0 - start of the film, 1 - end of the film.
+    CV_CAP_PROP_FRAME_WIDTH Width of the frames in the video stream.
+    CV_CAP_PROP_FRAME_HEIGHT Height of the frames in the video stream.
+    CV_CAP_PROP_FPS Frame rate.
+    ...
+    value: 设置的参数值/ Value of the property
+"""
+cap.set(3, 480)
+
+
+
+##### 3. cv2.VideoCapture.isOpened(), 检查摄像头初始化是否成功, 返回true或false / check if open camera successfully #####
+cap.isOpened()
+
+
+##### 4. cv2.VideoCapture.read([imgage]) -> retval,image, 读取视频 / Grabs, decodes and returns the next video frame #####
+"""
+返回两个值：
+    一个是布尔值true/false，用来判断读取视频是否成功/是否到视频末尾
+    图像对象，图像的三维矩阵
+"""
+flag, im_rd = cap.read()
+</code></pre>
+<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>2.2 人脸特征点标定</strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　调用预测器 &ldquo;shape_predictor_68_face_landmarks.dat&rdquo; 进行 68 点标定，这是 Dlib 训练好的模型，可以直接调用，进行人脸 68 个人脸特征点的标定；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　需要进行的后续工作是，利用坐标值进行特征点绘制；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　具体可以参考我的另一篇博客（<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/AdaminXie/p/8137580.html">Python 3 利用 Dlib 19.7 实现人脸68个特征点的标定</a>）；</span></p>
+<center>
+<p><span style=" font-family: 'Microsoft YaHei';"><img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181010133816441-32755019.png" alt="" />&nbsp;<img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181010133837739-1957193016.png" alt="" /></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>图 3 Dlib 中人脸 68 个特征点位置说明</strong></span></p>
+</center><center>
+<p><span style=" font-family: 'Microsoft YaHei';">　　&nbsp;</span></p>
+</center>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong>2.3 源码</strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　既然已经能够利用训练好的模型进行特征点检测，需要进行的工作是将摄像头捕获到的视频流，转换为 OpenCv 的图像对象，这样才能进行人脸特征点检测；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　然后利用返回的特征点坐标值，绘制特征点，实时的再绘制到摄像头界面上，达到实时人脸检测追踪的目的；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　利用&nbsp;cv2.VideoCapture() 创建摄像头对象，然后利用 flag, im_rd = cv2.VideoCapture.read() 读取摄像头视频，im_rd 就是视频中的一帧帧图像；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　然后就类似于单张图像进行人脸检测，对这一帧帧的图像 im_rd 利用 Dlib 进行特征点标定，然后绘制特征点；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　可以按下 's' 键来获取当前截图，会存下带有时间戳的本地图像文件如 &ldquo;screenshoot_1_2018-05-14-11-04-23.jpg&rdquo;；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　或者按下 'q' 键来退出摄像头窗口；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　有四个 python 文件:</span></p>
+<p style="margin-left: 30px;"><span style=" font-family: 'Microsoft YaHei';">　　how_to_use_camera.py　　　　OpenCv&nbsp;调用摄像头；</span></p>
+<p style="margin-left: 30px;"><span style=" font-family: 'Microsoft YaHei';">　　get_features_from_image.py　　绘制 "data/face_to_detect/face_x.jpg" 本地图像人脸文件的特征点；</span></p>
+<p style="margin-left: 30px;"><span style=" font-family: 'Microsoft YaHei';">　　get_features_from_camera.py　 从摄像头实时人脸检测绘制特征点；</span></p>
+<p style="margin-left: 30px;"><span style=" font-family: 'Microsoft YaHei';">　　remove_ss.py:　　　　　　　　删除 "data/screenshots/" 路径下的所有截图；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　（ 源码都上传到了 GitHub: <a href="https://github.com/coneypo/Dlib_face_detection_from_camera" target="_blank">https://github.com/coneypo/Dlib_face_detection_from_camera</a> ）</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　这里只给出 get_features_from_camera.py 的源码；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　<strong>get_features_from_camera.py：</strong></span></p>
+<pre><code class="language-python">
+# 调用摄像头，进行人脸捕获，和 68 个特征点的追踪
+
+# Author:   coneypo
+# Blog:     http://www.cnblogs.com/AdaminXie
+# GitHub:   https://github.com/coneypo/Dlib_face_detection_from_camera
+
+# Created at 2018-02-26
+# Updated at 2018-10-09
+
+import dlib         # 人脸识别的库 Dlib
+import numpy as np  # 数据处理的库 numpy
+import cv2          # 图像处理的库 OpenCv
+import time
+
+# 储存截图的目录
+path_screenshots = "data/screenshots/"
+
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor('data/dlib/shape_predictor_68_face_landmarks.dat')
+
+# 创建 cv2 摄像头对象
+cap = cv2.VideoCapture(0)
+
+# cap.set(propId, value)
+# 设置视频参数，propId 设置的视频参数，value 设置的参数值
+cap.set(3, 480)
+
+# 截图 screenshots 的计数器
+cnt = 0
+
+# cap.isOpened() 返回 true/false 检查初始化是否成功
+while cap.isOpened():
+
+    # cap.read()
+    # 返回两个值：
+    #    一个布尔值 true/false，用来判断读取视频是否成功/是否到视频末尾
+    #    图像对象，图像的三维矩阵
+    flag, im_rd = cap.read()
+
+    # 每帧数据延时 1ms，延时为 0 读取的是静态帧
+    k = cv2.waitKey(1)
+
+    # 取灰度
+    img_gray = cv2.cvtColor(im_rd, cv2.COLOR_RGB2GRAY)
+
+    # 人脸数
+    faces = detector(img_gray, 0)
+
+    # print(len(faces))
+
+    # 待会要写的字体
+    font = cv2.FONT_HERSHEY_SIMPLEX
+
+    # 标 68 个点
+    if len(faces) != 0:
+        # 检测到人脸
+        for i in range(len(faces)):
+            landmarks = np.matrix([[p.x, p.y] for p in predictor(im_rd, faces[i]).parts()])
+
+            for idx, point in enumerate(landmarks):
+                # 68 点的坐标
+                pos = (point[0, 0], point[0, 1])
+
+                # 利用 cv2.circle 给每个特征点画一个圈，共 68 个
+                cv2.circle(im_rd, pos, 2, color=(139, 0, 0))
+
+                # 利用 cv2.putText 输出 1-68
+                cv2.putText(im_rd, str(idx + 1), pos, font, 0.2, (187, 255, 255), 1, cv2.LINE_AA)
+
+        cv2.putText(im_rd, "faces: " + str(len(faces)), (20, 50), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
+    else:
+        # 没有检测到人脸
+        cv2.putText(im_rd, "no face", (20, 50), font, 1, (0, 0, 0), 1, cv2.LINE_AA)
+
+    # 添加说明
+    im_rd = cv2.putText(im_rd, "press 'S': screenshot", (20, 400), font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+    im_rd = cv2.putText(im_rd, "press 'Q': quit", (20, 450), font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
+
+    # 按下 's' 键保存
+    if k == ord('s'):
+        cnt += 1
+        print(path_screenshots + "screenshot" + "_" + str(cnt) + "_" + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + ".jpg")
+        cv2.imwrite(path_screenshots + "screenshot" + "_" + str(cnt) + "_" + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + ".jpg", im_rd)
+
+    # 按下 'q' 键退出
+    if k == ord('q'):
+        break
+
+    # 窗口显示
+    # 参数取 0 可以拖动缩放窗口，为 1 不可以
+    # cv2.namedWindow("camera", 0)
+    cv2.namedWindow("camera", 1)
+
+    cv2.imshow("camera", im_rd)
+
+# 释放摄像头
+cap.release()
+
+# 删除建立的窗口
+cv2.destroyAllWindows()
+</code></pre>
+<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong><strong><strong><strong><strong># 请尊重他人劳动成果，转载或者使用源码请注明出处：</strong><a title="xie" href="http://www.cnblogs.com/AdaminXie/" target="_blank">http://www.cnblogs.com/AdaminXie</a></strong></strong></strong></strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong><strong># 如果对您有帮助，欢迎在 GitHub 上 star 支持本项目，我也一直在更新博客和 Github 源码:&nbsp;<a title="Dlib_face_detection_from_camera" href="https://github.com/coneypo/Dlib_face_detection_from_camera" target="_blank">https://github.com/coneypo/Dlib_face_detection_from_camera</a></strong></strong></span></p>
+<p><span style=" font-family: 'Microsoft YaHei';"><strong><strong><strong># 如有问题可以联系本人邮箱：&nbsp;<a href="mailto:coneypo@foxmail.com">coneypo@foxmail.com</a></strong></strong></strong></span></p>
+</main>
+</body>
+</html>
+</html>
