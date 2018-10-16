@@ -110,9 +110,8 @@ flag, im_rd = cap.read()
 </code></pre>
 <p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
 <p><span style=" font-family: 'Microsoft YaHei';"><strong>2.2 人脸特征点标定</strong></span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　调用预测器 &ldquo;shape_predictor_68_face_landmarks.dat&rdquo; 进行 68 点标定，这是 Dlib 训练好的模型，可以直接调用，进行人脸 68 个人脸特征点的标定；</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　需要进行的后续工作是，利用坐标值进行特征点绘制；</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　具体可以参考我的另一篇博客（<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/AdaminXie/p/8137580.html">Python 3 利用 Dlib 19.7 实现人脸68个特征点的标定</a>）；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　shape_predictor_68_face_landmarks.dat 是 Dlib 训练好的模型，可以直接调用，进行人脸 68 个人脸特征点的标定；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　我们需要进行的后续工作是，利用得到的特征坐标值进行特征点绘制；</span></p>
 <center>
 <p><span style=" font-family: 'Microsoft YaHei';"><img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181010133816441-32755019.png" alt="" />&nbsp;<img src="https://img2018.cnblogs.com/blog/1152352/201810/1152352-20181010133837739-1957193016.png" alt="" /></span></p>
 <p><span style=" font-family: 'Microsoft YaHei';"><strong>图 3 Dlib 中人脸 68 个特征点位置说明</strong></span></p>
@@ -120,13 +119,11 @@ flag, im_rd = cap.read()
 <p><span style=" font-family: 'Microsoft YaHei';">　　&nbsp;</span></p>
 </center>
 <p><span style=" font-family: 'Microsoft YaHei';"><strong>2.3 源码</strong></span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　既然已经能够利用训练好的模型进行特征点检测，需要进行的工作是将摄像头捕获到的视频流，转换为 OpenCv 的图像对象，这样才能进行人脸特征点检测；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　既然已经能够利用训练好的模型进行特征点检测，需要进行的工作是将摄像头捕获到的视频流，转换为 OpenCv 的图像对象；</span></p>
 <p><span style=" font-family: 'Microsoft YaHei';">　　然后利用返回的特征点坐标值，绘制特征点，实时的再绘制到摄像头界面上，达到实时人脸检测追踪的目的；</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　利用&nbsp;cv2.VideoCapture() 创建摄像头对象，然后利用 flag, im_rd = cv2.VideoCapture.read() 读取摄像头视频，im_rd 就是视频中的一帧帧图像；</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　然后就类似于单张图像进行人脸检测，对这一帧帧的图像 im_rd 利用 Dlib 进行特征点标定，然后绘制特征点；</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">　　可以按下 's' 键来获取当前截图，会存下带有时间戳的本地图像文件如 &ldquo;screenshoot_1_2018-05-14-11-04-23.jpg&rdquo;；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　利用&nbsp;cv2.VideoCapture() 创建摄像头对象，然后利用 cv2.VideoCapture.read() 读取摄像头视频流中一帧帧图像；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　然后就类似于单张图像进行人脸检测，对这单帧的图像利用 Dlib 进行特征点标定，然后绘制特征点；</span></p>
+<p><span style=" font-family: 'Microsoft YaHei';">　　按下 's' 键来获取当前截图，会存下带有时间戳的本地图像文件如 &ldquo;screenshoot_1_2018-05-14-11-04-23.jpg&rdquo;；</span></p>
 <p><span style=" font-family: 'Microsoft YaHei';">　　或者按下 'q' 键来退出摄像头窗口；</span></p>
 <p><span style=" font-family: 'Microsoft YaHei';">　　</span></p>
 <p><span style=" font-family: 'Microsoft YaHei';">　　有四个 python 文件:</span></p>
@@ -240,11 +237,10 @@ cap.release()
 # 删除建立的窗口
 cv2.destroyAllWindows()
 </code></pre>
-<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';">&nbsp;</span></p>
-<p><span style=" font-family: 'Microsoft YaHei';"><strong><strong><strong><strong><strong># 请尊重他人劳动成果，转载或者使用源码请注明出处：</strong><a title="xie" href="http://www.cnblogs.com/AdaminXie/" target="_blank">http://www.cnblogs.com/AdaminXie</a></strong></strong></strong></strong></span></p>
-<p><span style=" font-family: 'Microsoft YaHei';"><strong><strong># 如果对您有帮助，欢迎在 GitHub 上 star 支持本项目，我也一直在更新博客和 Github 源码:&nbsp;<a title="Dlib_face_detection_from_camera" href="https://github.com/coneypo/Dlib_face_detection_from_camera" target="_blank">https://github.com/coneypo/Dlib_face_detection_from_camera</a></strong></strong></span></p>
-<p><span style=" font-family: 'Microsoft YaHei';"><strong><strong><strong># 如有问题可以联系本人邮箱：&nbsp;<a href="mailto:coneypo@foxmail.com">coneypo@foxmail.com</a></strong></strong></strong></span></p>
+<p>&nbsp;</p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Mail : &nbsp;&nbsp; <a href="mailto:coneypo@foxmail.com">coneypo@foxmail.com</a></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>&nbsp;</p>
+
 </main>
 </body>
 </html>
